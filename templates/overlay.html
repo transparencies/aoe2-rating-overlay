@@ -125,6 +125,9 @@ window.onload = function() {
 				color: function(c) {
 					return colors[c];
 				},
+				name: function(n) {
+				    return n.length > 20 ? n.substr(0, 20)+"⋯" : n;
+				},
 				civImage: function(p, orientation) {
 					var civname = civs[p.civ].string.toLowerCase();
 					return "img/civs/"+orientation+"/"+civname+"-DE.png";
@@ -134,13 +137,11 @@ window.onload = function() {
 					return "https://raw.githubusercontent.com/lipis/flag-icon-css/master/flags/1x1/"+country+".svg";
 				},
 				gameType2: function(m) {
-					console.log("gt", m);
 					if (m.num_players == 2) {
 						return "1v1";
 					}
 				},
 				gameType: function(m) {
-					console.log(m);
 					if (m.leaderboard_id == 1 || m.leaderboard_id == 2) {
 						return "DM";
 					}
@@ -161,7 +162,45 @@ window.onload = function() {
 			// start polling
 			setTimeout(periodicCheck, 500);
 			window.periodicCheckInterval = setInterval(periodicCheck, 30*1000);
-		}
+		},
+		observe: {
+		    'database.match.players.*.name': {
+                handler: () => {
+                    console.log("player name changed");
+                    const defaultSize = 16.9334;
+                    const defaultYPosition = 135;
+                    const defaultHeight = 18.8;
+                    var maxWidth=100;
+                    var p1 = document.getElementById("playername_p1");
+                    var p2 = document.getElementById("playername_p2");
+                    console.log(p1, p2);
+                    if (p1 && p2) {
+                        // reset transformation
+                        p1.style.fontSize = defaultSize+"px";
+                        p2.style.fontSize = defaultSize+"px";
+
+                        var p1Height = (p1.getBBox()).height;
+                        var p2Height = (p2.getBBox()).height;
+
+                        var p1scale = maxWidth / (p1.getBBox()).width;
+                        var p2scale = maxWidth / (p2.getBBox()).width;
+
+                        var scale = Math.min(1, p1scale < p2scale ? p1scale : p2scale);
+                        var value=defaultSize*scale;
+
+                        p1.style.fontSize = value.toFixed(4)+"px";
+                        p2.style.fontSize = value.toFixed(4)+"px";
+
+                        console.log(defaultYPosition - (defaultHeight - p1.getBBox().height)/2);
+
+                        // center textbox on flag
+                        p1.setAttributeNS(null, 'y', defaultYPosition - ((defaultHeight - defaultHeight*scale)/3));
+                        p2.setAttributeNS(null, 'y', defaultYPosition - ((defaultHeight - defaultHeight*scale)/3));
+                    }
+                },
+                defer: true
+            }
+        }
 	});
 }
 </script>

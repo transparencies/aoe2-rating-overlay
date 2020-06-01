@@ -1,7 +1,7 @@
 from lxml import etree
 
 # load the template from a file
-svg_template = etree.parse('templates/overlay.svg.tpl')
+svg_template = etree.parse('templates/overlay.svg')
 namespace = {'s': 'http://www.w3.org/2000/svg'}
 
 
@@ -31,8 +31,8 @@ def tpl_set(t, k, a, v):
 
 
 # player names
-tpl_text('tspan', 'playername_p1', '{{database.match.players.0.name}}')
-tpl_text('tspan', 'playername_p2', '{{database.match.players.1.name}}')
+tpl_text('tspan', 'playername_p1', '{{f.name(database.match.players.0.name)}}')
+tpl_text('tspan', 'playername_p2', '{{f.name(database.match.players.1.name)}}')
 
 # player flags
 tpl_set('image', 'country_flag_p1', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.players.0)}}")
@@ -72,11 +72,11 @@ svg = etree.tostring(svg_template, encoding='utf8', method='xml')
 
 
 # inject svg-template into html-template
-with open('templates/overlay.html.tpl') as html_in:
+with open('templates/overlay.html') as html_in:
     html_template = html_in.read()
 
 html_template = html_template.replace('<script id="template" type="text/ractive"></script>', '<script id="template" type="text/ractive">%s</script>' % svg.decode("utf-8"))
 
 
-with open('overlay.html', 'w') as html_out:
+with open('out/overlay.html', 'w') as html_out:
     html_out.write(html_template)
