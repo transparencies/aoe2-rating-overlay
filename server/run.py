@@ -1,8 +1,12 @@
-from aiohttp import web, hdrs
+from aiohttp import web, hdrs, WSCloseCode
 import asyncio
 import aiohttp
 import aiohttp_cors
 import yaml
+from collections import defaultdict
+from weakref import WeakSet
+import json
+
 
 async def fetch(url, params, session, text=False):
     async with session.get(url, params=params) as resp:
@@ -14,21 +18,26 @@ async def fetch(url, params, session, text=False):
         else:
             return None
 
+
 async def get_reference_players(session):
-    data = await fetch('https://raw.githubusercontent.com/SiegeEngineers/aoc-reference-data/master/data/players.yaml', params={}, session=session, text=True)
+    data = await fetch('https://raw.githubusercontent.com/SiegeEngineers/aoc-reference-data/master/data/players.yaml',
+                       params={},
+                       session=session,
+                       text=True)
     players = yaml.load(data, Loader=yaml.SafeLoader)
     aliases = dict()
     for player in players:
-       if 'platforms' in player and player['platforms'] is not None and 'de' in player['platforms']:
-           for profile_id in player['platforms']['de']:
-               if profile_id.isnumeric():
-                   aliases[int(profile_id)] = player['name']
+        if 'platforms' in player and player['platforms'] is not None and 'de' in player['platforms']:
+            for profile_id in player['platforms']['de']:
+                if profile_id.isnumeric():
+                    aliases[int(profile_id)] = player['name']
 
     return aliases
 
 
 async def root(request):
     return web.Response(text="aoe2obs")
+
 
 async def matchinfo(request):
     profile_id = request.rel_url.query.get('profile_id', None)
@@ -44,7 +53,9 @@ async def matchinfo(request):
 
     data = dict()
 
-    data['match'] = await fetch('https://aoe2.net/api/player/lastmatch', params=params, session=request.app['CLIENT_SESSION'])
+    data['match'] = await fetch('https://aoe2.net/api/player/lastmatch',
+                                params=params,
+                                session=request.app['CLIENT_SESSION'])
     if data['match'] is None:
         return web.json_response(data={'error': 'Player not found'})
 
@@ -53,9 +64,15 @@ async def matchinfo(request):
     # if the lobby is an unranked custom lobby, return 1v1 leaderboard info instead
     leaderboard_id = data['match']['leaderboard_id']
     if leaderboard_id == 0:
-       leaderboard_id = 3
+        leaderboard_id = 3
 
-    data['players'] = await asyncio.gather(*[fetch('https://aoe2.net/api/leaderboard', params={'game': 'aoe2de', 'profile_id': p['profile_id'], 'leaderboard_id': leaderboard_id}, session=request.app['CLIENT_SESSION']) for p in data['match']['players']])
+    data['players'] = await asyncio.gather(*[fetch('https://aoe2.net/api/leaderboard',
+                                                   params={'game': 'aoe2de',
+                                                           'profile_id': p['profile_id'],
+                                                           'leaderboard_id': leaderboard_id},
+                                                   session=request.app['CLIENT_SESSION'])
+                                             for p in data['match']['players']])
+
     data['players'] = [p['leaderboard'][0] for p in data['players']]
 
     for player in data['match']['players']:
@@ -67,11 +84,60 @@ async def matchinfo(request):
     return web.json_response(data=data)
 
 
+async def send_message(request):
+    channel = request.rel_url.query.get('channel', None)
+    message = request.rel_url.query.get('message', None)
+    if channel is None or message is None:
+        web.json_response(data={'error': 'Specify the channel and a message to send.'})
+
+    try:
+        for ws in request.app['CHANNELS'][channel]:
+            await ws.send_str(message)
+    except IndexError:
+        pass
+
+    return web.Response(text="Done.")
+
+
+async def websocket_handler(request):
+    ws = web.WebSocketResponse(heartbeat=30)
+    await ws.prepare(request)
+
+    request.app['WEBSOCKETS'].add(ws)
+    print("new socket connection")
+    try:
+        async for msg in ws:
+            print("msg %s" % str(msg))
+            if msg.type == aiohttp.WSMsgType.TEXT:
+                print("type text")
+                try:
+                    data = json.loads(msg.data)
+                    print(data)
+                    if data['action'] == "subscribe":
+                        request.app['CHANNELS'][data['channel']].add(ws)
+                except (json.JSONDecodeError, IndexError, ValueError) as e:
+                    print(e)
+                    continue
+
+    finally:
+        for channel in request.app['CHANNELS']:
+            request.app['CHANNELS'][channel].discard(ws)
+
+        request.app['WEBSOCKETS'].discard(ws)
+
+    return ws
+
 app = web.Application()
-app.add_routes([web.get('/', root), web.get('/matchinfo', matchinfo)])
+app.add_routes([web.get('/', root), web.get('/matchinfo', matchinfo),
+                web.get('/ws', websocket_handler), web.get('/send_message', send_message)])
 
 cors = aiohttp_cors.setup(app, defaults={
-    "https://share.polskafan.de": aiohttp_cors.ResourceOptions(allow_credentials=True, expose_headers="*", allow_headers="*")
+    "https://share.polskafan.de": aiohttp_cors.ResourceOptions(allow_credentials=True,
+                                                               expose_headers="*",
+                                                               allow_headers="*"),
+    "https://twitch.polskafan.de": aiohttp_cors.ResourceOptions(allow_credentials=True,
+                                                                expose_headers="*",
+                                                                allow_headers="*"),
 })
 
 # Configure CORS on all routes.
@@ -82,8 +148,13 @@ for route in list(app.router.routes()):
 async def persistent_session(app):
     app['CLIENT_SESSION'] = session = aiohttp.ClientSession()
     app['REFERENCE_PLAYERS'] = await get_reference_players(session=session)
+    app['WEBSOCKETS'] = WeakSet()
+    app['CHANNELS'] = defaultdict(WeakSet)
     yield
     await session.close()
+    for ws in set(app['websockets']):
+        await ws.close(code=WSCloseCode.GOING_AWAY,
+                       message='Server shutdown')
 
 app.cleanup_ctx.append(persistent_session)
 

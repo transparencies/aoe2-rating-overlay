@@ -41,14 +41,14 @@ tpl_set('image', 'country_flag_p2', '{http://www.w3.org/1999/xlink}href', "{{f.f
 tpl_set('image', 'country_flag_p2', 'clip-path', 'url(#circleClip)')
 
 # ratings p1
-tpl_text('tspan', 'rank_p1', '{{database.players.0.rank}}')
+tpl_text('tspan', 'rank_p1', '{{f.rank(database.players.0)}}')
 tpl_text('tspan', 'rating_p1', '{{database.players.0.rating}}')
 tpl_text('tspan', 'winrate_p1', '{{f.winrate(database.players.0)}}')
 tpl_text('tspan', 'wins_p1', '{{database.players.0.wins}}')
 tpl_text('tspan', 'losses_p1', '{{database.players.0.losses}}')
 
 # ratings p2
-tpl_text('tspan', 'rank_p2', '{{database.players.1.rank}}')
+tpl_text('tspan', 'rank_p2', '{{f.rank(database.players.0)}}')
 tpl_text('tspan', 'rating_p2', '{{database.players.1.rating}}')
 tpl_text('tspan', 'winrate_p2', '{{f.winrate(database.players.1)}}')
 tpl_text('tspan', 'wins_p2', '{{database.players.1.wins}}')
@@ -75,7 +75,7 @@ svg = etree.tostring(svg_template, encoding='utf8', method='xml')
 with open('templates/overlay.html') as html_in:
     html_template = html_in.read()
 
-html_template = html_template.replace('<script id="template" type="text/ractive"></script>', '<script id="template" type="text/ractive">%s</script>' % svg.decode("utf-8"))
+html_template = html_template.replace('###SVG-TEMPLATE###', svg.decode("utf-8"))
 
 
 with open('out/overlay.html', 'w') as html_out:

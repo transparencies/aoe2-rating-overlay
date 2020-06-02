@@ -9,15 +9,21 @@
 @font-face {font-family: "Britannic Bold"; src: url("//db.onlinewebfonts.com/t/8be4a2f403c2dc27187d892cca388e24.eot"); src: url("//db.onlinewebfonts.com/t/8be4a2f403c2dc27187d892cca388e24.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/8be4a2f403c2dc27187d892cca388e24.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/8be4a2f403c2dc27187d892cca388e24.woff") format("woff"), url("//db.onlinewebfonts.com/t/8be4a2f403c2dc27187d892cca388e24.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/8be4a2f403c2dc27187d892cca388e24.svg#Britannic Bold") format("svg"); }
 
 body {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 </style>
 </head>
 <body>
 <div id="app"></div>
 
-<script id="template" type="text/ractive"></script>
+<script id="template" type="text/ractive">
+{{#if database.show}}
+<div fade-in fade-out>
+###SVG-TEMPLATE###
+</div>
+{{/if database.show}}
+</script>
 
 <script>
 window.onload = function() {
@@ -70,14 +76,51 @@ window.onload = function() {
 						if (matchinfo.match.num_players == 2) {
 							thisRactive.set("database.match", matchinfo.match);
 							thisRactive.set("database.players", matchinfo.players);
-						}
+                            thisRactive.set("database.show", true);
+						} else {
+                            thisRactive.set("database.show", false);
+                        }
 					} else {
 						console.log("No new data");
 					}
 				});
 			}).catch((err) => console.log(err));
-	}
-	
+	};
+
+    const scale = function() {
+        console.log("player name changed");
+        const defaultSize = 16.9334;
+        const defaultYPosition = 135;
+        const defaultHeight = 18.8;
+        var maxWidth = 100;
+        var p1 = document.getElementById("playername_p1");
+        var p2 = document.getElementById("playername_p2");
+        console.log(p1, p2);
+        if (p1 && p2) {
+            // reset transformation
+            p1.style.fontSize = defaultSize + "px";
+            p2.style.fontSize = defaultSize + "px";
+
+            var p1Height = (p1.getBBox()).height;
+            var p2Height = (p2.getBBox()).height;
+
+            var p1scale = maxWidth / (p1.getBBox()).width;
+            var p2scale = maxWidth / (p2.getBBox()).width;
+
+            var scale = Math.min(1, p1scale < p2scale ? p1scale : p2scale);
+            var value = defaultSize * scale;
+
+            p1.style.fontSize = value.toFixed(4) + "px";
+            p2.style.fontSize = value.toFixed(4) + "px";
+
+            console.log(defaultYPosition - (defaultHeight - p1.getBBox().height) / 2);
+
+            // center textbox on flag
+            p1.setAttributeNS(null, 'y', defaultYPosition - ((defaultHeight - defaultHeight * scale) / 3));
+            p2.setAttributeNS(null, 'y', defaultYPosition - ((defaultHeight - defaultHeight * scale) / 3));
+        }
+    };
+
 	window.ractive = Ractive({
 		target: "#app",
 		template: "#template",
@@ -149,7 +192,14 @@ window.onload = function() {
 						return "RM";
 					}
 					return "";
-				}
+				},
+                rank: function(p) {
+				    if(p.rank > 0 && p.rank < 999) {
+				        return "#"+p.rank+" |";
+                    } else {
+				        return "";
+                    }
+                }
 			}
 		},
 		onrender: function() {
@@ -158,46 +208,52 @@ window.onload = function() {
 			// get url parameters
 			thisRactive.set('database.steamId', getParameterByName('steam_id'));
 			thisRactive.set('database.profileId', getParameterByName('profile_id'));
-			
+
 			// start polling
-			setTimeout(periodicCheck, 500);
-			window.periodicCheckInterval = setInterval(periodicCheck, 30*1000);
+            setTimeout(periodicCheck, 500);
+            window.periodicCheckInterval = setInterval(periodicCheck, 30*1000);
+
+            // subscribe to remote control channel
+			var channel = getParameterByName('channel');
+			if (channel) {
+                try {
+                    window.sock = new WebSocket('ws://twitch.polskafan.de/aoe2obs/ws');
+                }
+                catch(err){
+                    window.sock = new WebSocket('wss://twitch.polskafan.de/aoe2obs/ws');
+                }
+                sock.onopen = function() {
+                    console.log("remote control socket connection opened");
+                    window.sock.send('{"action": "subscribe", "channel": "'+channel+'"}');
+                };
+
+                sock.onmessage = function(event) {
+                    try {
+                        var data = JSON.parse(event.data);
+                        if(data['action'] == "UpdateProfileId") {
+                            thisRactive.set('database.profileId', data['profileId']).then(() => {
+                                periodicCheck();
+                            });
+                        } else if (data['action'] == "ReloadOverlay") {
+                            window.location.reload(true);
+                        } else if (data['action'] == "ShowOverlay") {
+                            thisRactive.set("database.show", true);
+                        } else if (data['action'] == "HideOverlay") {
+                            thisRactive.set("database.show", false);
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
+                };
+            }
 		},
 		observe: {
+		    'database.show': {
+		        handler: scale,
+                defer: true
+            },
 		    'database.match.players.*.name': {
-                handler: () => {
-                    console.log("player name changed");
-                    const defaultSize = 16.9334;
-                    const defaultYPosition = 135;
-                    const defaultHeight = 18.8;
-                    var maxWidth=100;
-                    var p1 = document.getElementById("playername_p1");
-                    var p2 = document.getElementById("playername_p2");
-                    console.log(p1, p2);
-                    if (p1 && p2) {
-                        // reset transformation
-                        p1.style.fontSize = defaultSize+"px";
-                        p2.style.fontSize = defaultSize+"px";
-
-                        var p1Height = (p1.getBBox()).height;
-                        var p2Height = (p2.getBBox()).height;
-
-                        var p1scale = maxWidth / (p1.getBBox()).width;
-                        var p2scale = maxWidth / (p2.getBBox()).width;
-
-                        var scale = Math.min(1, p1scale < p2scale ? p1scale : p2scale);
-                        var value=defaultSize*scale;
-
-                        p1.style.fontSize = value.toFixed(4)+"px";
-                        p2.style.fontSize = value.toFixed(4)+"px";
-
-                        console.log(defaultYPosition - (defaultHeight - p1.getBBox().height)/2);
-
-                        // center textbox on flag
-                        p1.setAttributeNS(null, 'y', defaultYPosition - ((defaultHeight - defaultHeight*scale)/3));
-                        p2.setAttributeNS(null, 'y', defaultYPosition - ((defaultHeight - defaultHeight*scale)/3));
-                    }
-                },
+                handler: scale,
                 defer: true
             }
         }
