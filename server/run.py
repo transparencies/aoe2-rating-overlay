@@ -71,9 +71,32 @@ async def matchinfo(request):
                                                            'profile_id': p['profile_id'],
                                                            'leaderboard_id': leaderboard_id},
                                                    session=request.app['CLIENT_SESSION'])
+                                             if p['profile_id'] is not None else asyncio.sleep(0)
                                              for p in data['match']['players']])
 
-    data['players'] = [p['leaderboard'][0] for p in data['players']]
+    data['players'] = [x['leaderboard'][0] if x is not None and len(x['leaderboard']) > 0 else None for x in data['players']]
+
+    history = await asyncio.gather(*[fetch('https://aoe2.net/api/player/ratinghistory',
+                                           params={'game': 'aoe2de',
+                                                   'profile_id': p['profile_id'],
+                                                   'leaderboard_id': leaderboard_id,
+                                                   'count': 1},
+                                           session=request.app['CLIENT_SESSION'])
+                                     if data['players'][p_idx] is None else asyncio.sleep(0)
+                                     for p_idx, p in enumerate(data['match']['players'])])
+
+    # map fieldnames
+    for p_idx, p in enumerate(history):
+        if p is not None and len(p) > 0:
+            data['players'][p_idx] = {
+                "historic": True,
+                "rating": p[0]['rating'],
+                "wins": p[0]['num_wins'],
+                "losses": p[0]['num_losses'],
+                "streak": p[0]['streak'],
+                "drops": p[0]['drops'],
+                "timestamp": p[0]['timestamp']
+            }
 
     for player in data['match']['players']:
         if player is not None:

@@ -71,7 +71,6 @@ window.onload = function() {
 				res.json().then((matchinfo) => {
 					console.log(matchinfo);
 					if (matchinfo.match && matchinfo.match.match_id && (matchinfo.match.match_id > 0) && (database.match.match_id != matchinfo.match.match_id)) {
-						console.log("New data, updating!");
 						// check if match is 1v1, if not ignore it
 						if (matchinfo.match.num_players == 2) {
 							thisRactive.set("database.match", matchinfo.match);
@@ -162,6 +161,19 @@ window.onload = function() {
 				},
 			},
 			f: {
+			    showRating: function(p) {
+			        if (p) {
+                        return "display: inline;";
+                    } else {
+                        return "display: none;";
+                    }
+                },
+                unranked: function(p) {
+                    if (!p) {
+                        console.log("unranked");
+                        return "unranked";
+                    }
+                },
 				winrate: function(p) {
 					return (100*p.wins/(p.wins+p.losses)).toFixed(0);
 				},
@@ -196,8 +208,10 @@ window.onload = function() {
                 rank: function(p) {
 				    if(p.rank > 0 && p.rank < 999) {
 				        return "#"+p.rank+" |";
+                    } else if (p.historic) {
+                       return "DR |";
                     } else {
-				        return "";
+				        return "R↑ |";
                     }
                 }
 			}
