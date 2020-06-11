@@ -7,11 +7,13 @@ license = "AGPL-3.0-or-later"
 build = "build.rs"
 
 [dependencies]
+reqwest = {version = "~0.10.6", features = ["blocking", "rustls-tls"]}
+neutrino = {version = "~0.4.0", git = "https://github.com/simonsan/neutrino.git"}
 web-view = {version = "~0.6", features = ["edge"]}
 clap = {version = "~2.33", features = ["yaml"]}
 
 [build-dependencies]
-winres = "0.1"
+winres = "~0.1"
 
 [package.metadata.winres]
 OriginalFilename = "aoe2overlay.exe"
