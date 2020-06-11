@@ -1,0 +1,20 @@
+[package]
+name = "aoe2overlay"
+version = "0.1.0"
+authors = ["Simon <simon@systemli.org>"]
+edition = "2018"
+license = "AGPL-3.0-or-later"
+build = "build.rs"
+
+[dependencies]
+web-view = "~0.6"
+clap = {version = "~2.33", features = ["yaml"]}
+
+[build-dependencies]
+winres = "0.1"
+
+[package.metadata.winres]
+OriginalFilename = "aoe2overlay.exe"
+LegalCopyright = "Copyright © 2020"
+ProductVersion = "0.1.0"
+ProductName = "aoe2overlay"
