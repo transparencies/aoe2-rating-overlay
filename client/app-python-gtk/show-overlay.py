@@ -36,6 +36,10 @@ def get_image_data(image_path):
 
 
 class SvgOverlay(Gtk.Window):
+    # TODO: Make window resizable and svg scale in it
+    # TODO: Make window draggable with mouse and lock in place with an option
+    # TODO: Open options menu with a long click on the overlay
+
     def __init__(self, image_path, fixed, reload, monitor, opacity):
         Gtk.Window.__init__(self, title="svgoverlay")
         self.opacity = opacity
@@ -113,12 +117,15 @@ if __name__ == '__main__':
     parser.add_argument('--monitor', type=int, help='monitor to display overlay on')
     parser.add_argument('--fixed', type=str, help='display image in fixed region instead of scaling; provide as '
                                                   'width,height,y,x')
+    parser.add_argument('--resizable', type=str, help='make image resizable by dragging the mouse on the windows '
+                                                      'borders') # TODO! 
+    parser.add_argument('--draggable', type=str, help='make image draggable by clicking on it 5s and move the mouse') # TODO!
     parser.add_argument('--reload', type=float, help='reload the image every specified seconds')
     parser.add_argument('image', type=str, help='path or url to SVG to display')
 
     args = parser.parse_args()
 
-    win = SvgOverlay(args.image, args.fixed, args.reload, args.monitor or 0, args.opacity or .5)
-    win.connect("delete-event", Gtk.main_quit)
+    win = SvgOverlay(args.image, args.fixed, args.reload, args.monitor or 0, args.opacity or 1.0)
+    win.connect("destroy", Gtk.main_quit)
     win.show_all()
     Gtk.main()
