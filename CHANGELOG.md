@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 Documentation:
 - Added instructions to setup the overlay
+- Updated source files with licensing header
 
 Overlay:
 - change circle size
