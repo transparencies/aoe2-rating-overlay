@@ -15,13 +15,25 @@
 import argparse
 import cairo
 import gi
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from gi.repository import Gdk
-from gi.repository.GdkPixbuf import Pixbuf 
-from gi.repository import Gio 
+from gi.repository.GdkPixbuf import Pixbuf
+from gi.repository import Gio
 from gi.repository import GLib
 from urllib.request import urlopen
+
+
+def get_image_data(image_path):
+    if image_path.startswith('http://') or image_path.startswith('https://'):
+        # If the image path is a URL, fetch it
+        return bytearray(urlopen(image_path).read())
+    else:
+        # Else, load it from distk
+        with open(image_path, 'rb') as f:
+            return bytearray(f.read())
+
 
 class SvgOverlay(Gtk.Window):
     def __init__(self, image_path, fixed, reload, monitor, opacity):
@@ -30,10 +42,11 @@ class SvgOverlay(Gtk.Window):
 
         self.screen = self.get_screen()
         self.visual = self.screen.get_rgba_visual()
-        if self.visual != None and self.screen.is_composited():
+        if self.visual is not None and self.screen.is_composited():
             self.set_visual(self.visual)
 
         # Move to specified monitor
+        # TODO: Refactor, this is deprecated
         geometry = self.screen.get_monitor_geometry(monitor)
         self.move(geometry.x, geometry.y)
 
@@ -76,19 +89,10 @@ class SvgOverlay(Gtk.Window):
 
     def reload_image(self):
         # Reload the image
-        input_stream = Gio.MemoryInputStream.new_from_data(self.get_image_data(self.image_path), None)
+        input_stream = Gio.MemoryInputStream.new_from_data(get_image_data(self.image_path), None)
         pixbuf = Pixbuf.new_from_stream_at_scale(input_stream, self.image_size[0], self.image_size[1], True, None)
         self.svg_image.set_from_pixbuf(pixbuf)
         return True
-
-    def get_image_data(self, image_path):
-        if image_path.startswith('http://') or image_path.startswith('https://'):
-            # If the image path is a URL, fetch it
-            return bytearray(urlopen(image_path).read())
-        else:
-            # Else, load it from distk
-            with open(image_path, 'rb') as f:
-                return bytearray(f.read())
 
     def on_draw(self, widget, cr):
         # Handle clickthrough
@@ -98,14 +102,17 @@ class SvgOverlay(Gtk.Window):
         cr.set_operator(cairo.OPERATOR_OVER)
         self.input_shape_combine_region(cairo.Region(cairo.RectangleInt(0, 0, 0, 0)))
 
+
 if __name__ == '__main__':
     import signal
+
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
     parser = argparse.ArgumentParser(description='Display a transparent, clickthrough SVG image overlay')
     parser.add_argument('--opacity', type=float, help='decimal; opacity of image displayed')
     parser.add_argument('--monitor', type=int, help='monitor to display overlay on')
-    parser.add_argument('--fixed', type=str, help='display image in fixed region instead of scaling; provide as width,height,x,y')
+    parser.add_argument('--fixed', type=str, help='display image in fixed region instead of scaling; provide as '
+                                                  'width,height,y,x')
     parser.add_argument('--reload', type=float, help='reload the image every specified seconds')
     parser.add_argument('image', type=str, help='path or url to SVG to display')
 
