@@ -6,7 +6,7 @@ Go to [aoe2.net](https://aoe2.net/#aoe2de-leaderboard-rm-1v1) and search
 for your in-game name `right-click` and click on `Copy link location`. 
 
 You will get something like this:
- 
+
 `javascript:viewProfile('<ID>','<Steam-ID>','<ageofempires.com-Profile-ID>')`
 
 ## 2. Use our link
@@ -18,9 +18,13 @@ value from the last step as follows:
 
   `https://overlays.polskafan.de/rating/?steam_id=<Steam-ID>`
 
+  Example: `https://overlays.polskafan.de/rating/?steam_id=76561197984749679`
+
 * With your `ageofempires.com-Profile-ID`:
 
   `https://overlays.polskafan.de/rating/?profile_id=<ageofempires.com-Profile-ID>`
+  
+  Example: `https://overlays.polskafan.de/rating/?profile_id=196240`
 
 ## 3. Create a new browser source in OBS
 
