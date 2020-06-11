@@ -1,9 +1,9 @@
 name: aoe2overlay
-version: "0.1"
+version: "0.1.0"
 author: "simonsan <simon@systemli.org>"
 about: "Pulls our overlay from the web and shows it on screen"
 args:
-    - config:
+    - steamid:
         short: i
         long: steamid
         value_name: steam_id
