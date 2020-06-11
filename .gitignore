@@ -4,6 +4,10 @@ out/*
 # IDE
 *.iml
 /.idea/
+/client/app-python-gtk/.idea/
+
+# Venv
+/client/app-python-gtk/venv/
 
 # Assets
 /app/src/assets/civ-crests/
