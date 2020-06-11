@@ -4,3 +4,11 @@ out/*
 # IDE
 *.iml
 /.idea/
+
+# Assets
+/app/src/assets/civ-crests/
+/app/src/assets/civs/
+/app/src/assets/background.png
+/app/src/assets/fight-logo.png
+/app/src/assets/old-background.png
+/app/src/assets/yodit_background.png
