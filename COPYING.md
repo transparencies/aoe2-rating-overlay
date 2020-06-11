@@ -67,6 +67,5 @@ All 3rd-party files **must** be included in the following list.
 
 List of all 3rd-party files:
 
-From [Name](Profile/Repository-Link) ([License name](/legal/licensefile))
-
- - XXX/XXX/XXX
+From [Joshua Seigler](https://gist.github.com/seigler) ([License name](/legal/licensefile)) (TODO)
+ - "client/app-python-gtk/show-overlay.py"

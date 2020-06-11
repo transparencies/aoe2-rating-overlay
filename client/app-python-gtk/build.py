@@ -1,3 +1,5 @@
+# Copyright 2020-2020 the aoe-assoc authors. See COPYING.md for legal info.
+
 from lxml import etree
 
 with open('templates/overlay.svg', 'rb') as svg_in:

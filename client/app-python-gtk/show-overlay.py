@@ -1,5 +1,13 @@
-#!/usr/bin/env python3
-#
+# This file contains code from svgoverlay,
+# Copyright 2017-2017 Joshua Seigler.
+# It's licensed under the terms of the 3-clause BSD license.
+# < any amount of lines of further legal information required by $PROJECT,
+#   such as a reference to a copy of the $PROJECT's README or AUTHORS file >
+# < if third-party files from more than the one project were used in this
+#   file, copy the above any number of times >
+# Modifications Copyright 2020-2020 the aoe-assoc authors.
+# See COPYING.md for further legal info.
+
 # svgoverlay
 # Based on Fiverr Job completed by https://www.fiverr.com/nvella
 # Fiverr Job FO4F459DA7C8
