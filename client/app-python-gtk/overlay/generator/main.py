@@ -87,7 +87,7 @@ if "tspan1042" in svg.decode("utf-8"):
     print("tspan1042")
 
 # inject svg-template into html-template
-with open('templates/overlay.html') as html_in:
+with open('templating/overlay.html') as html_in:
     html_template = html_in.read()
 
 html_template = html_template.replace('###SVG-TEMPLATE###', svg.decode("utf-8"))
