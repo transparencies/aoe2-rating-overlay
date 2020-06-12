@@ -1,24 +1,17 @@
 # This file contains code from svgoverlay,
-# Copyright 2017-2017 Joshua Seigler.
-# It's licensed under the terms of the 3-clause BSD license.
-# < any amount of lines of further legal information required by $PROJECT,
-#   such as a reference to a copy of the $PROJECT's README or AUTHORS file >
-# < if third-party files from more than the one project were used in this
-#   file, copy the above any number of times >
+# Taken from https://gist.github.com/seigler/28dd06334b55a93692855a8dd62c1b57
+# Copyright 2017-2020 Joshua Seigler.
+# It's licensed under the terms of the MIT license.
 # Modifications Copyright 2020-2020 the aoe-assoc authors.
 # See COPYING.md for further legal info.
 
 # svgoverlay
-# Based on Fiverr Job completed by https://www.fiverr.com/nvella
-# Fiverr Job FO4F459DA7C8
-# Taken from https://gist.github.com/seigler/28dd06334b55a93692855a8dd62c1b57
-#
 # Display an SVG from disk or URL in a fullscreen, transparent, click-through window, with settable opacity.
 # When used on Arch Linux, requires AUR package python-gobject-patched for click-through functionality
 #
 # Example usage:
 # svgoverlay --opacity 0.8 --monitor 0 filename.svg
-#
+
 import sys
 
 import argparse
@@ -33,8 +26,6 @@ from gi.repository import Gio
 from gi.repository import GLib
 from urllib.request import urlopen
 
-# This would typically be its own file
-#
 # def get_image_data(image_path):
 #     if image_path.startswith('http://') or image_path.startswith('https://'):
 #         # If the image path is a URL, fetch it
