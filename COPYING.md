@@ -65,7 +65,10 @@ Authors of 3rd-party files should generally not be entered in the
 
 All 3rd-party files **must** be included in the following list.
 
-List of all 3rd-party files:
+List of all 3rd-party files/code:
 
 From [Joshua Seigler](https://gist.github.com/seigler) ([MIT](/legal/MIT))
  - "client/app-python-gtk/show-overlay.py"
+
+From [Sebastian Pölsterl](https://github.com/sebp) ([FDLv1.3](/legal/FDL-v1.3))
+ - "client/app-python-gtk/show-overlay.py
