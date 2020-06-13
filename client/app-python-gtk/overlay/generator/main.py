@@ -1,14 +1,19 @@
 # Copyright 2020-2020 the aoe-assoc authors. See COPYING.md for legal info.
 
+"""
+Replace values in template files.
+"""
+
 from lxml import etree
 
+# load the template from a file
 with open('templates/overlay.svg', 'rb') as svg_in:
     svg_template = svg_in.read()
 
 if "tspan1042" in svg_template.decode("utf-8"):
     print("tspan1042")
 
-# load the template from a file
+
 svg_template = etree.fromstring(svg_template)
 namespace = {'s': 'http://www.w3.org/2000/svg'}
 
