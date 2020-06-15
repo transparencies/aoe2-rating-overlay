@@ -5,6 +5,9 @@ info:
   description: 'AoE2 ladder with ratings, showing ongoing matches and lobbies'
   x-logo:
     url: ''
+  license:
+    name: Apache-2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
 servers:
   - url: 'https://aoe2.net/api'
     description: ''
