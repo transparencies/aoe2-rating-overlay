@@ -1,0 +1,1211 @@
+openapi: 3.0.3
+info:
+  title: aoe2net
+  version: '1.0'
+  description: 'AoE2 ladder with ratings, showing ongoing matches and lobbies'
+  x-logo:
+    url: ''
+servers:
+  - url: 'https://aoe2.net/api'
+    description: ''
+    x-last-modified: 1592214021684
+paths:
+  /leaderboard:
+    summary: ''
+    description: Request the current leaderboards
+    get:
+      tags:
+        - ''
+      parameters:
+        - deprecated: false
+          example: ''
+          name: game
+          description: 'Game (Age of Empires 2:Definitive Edition=aoe2de)'
+          schema:
+            $ref: '#/components/schemas/Game-de'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592220693456
+        - deprecated: false
+          example: ''
+          name: leaderboard_id
+          description: >-
+            Leaderboard ID (Unranked=0, 1v1 Deathmatch=1, Team Deathmatch=2, 1v1
+            Random Map=3, Team Random Map=4)
+          schema:
+            $ref: '#/components/schemas/LeaderboardID'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592220684976
+        - deprecated: false
+          example: ''
+          name: start
+          description: >-
+            Starting rank (Ignored if search, steam_id, or profile_id are
+            defined)
+          schema:
+            $ref: '#/components/schemas/Start'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592220720278
+        - deprecated: false
+          example: ''
+          name: count
+          description: Number of leaderboard entries to get (Must be 10000 or less))
+          schema:
+            $ref: '#/components/schemas/Count'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592220745297
+        - deprecated: false
+          example: ''
+          name: search
+          description: Name Search
+          schema:
+            $ref: '#/components/schemas/Search'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592220767904
+        - deprecated: false
+          example: ''
+          name: steam_id
+          description: 'steamID64 (ex: 76561199003184910)'
+          schema:
+            $ref: '#/components/schemas/SteamID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592220882359
+        - deprecated: false
+          example: ''
+          name: profile_id
+          description: 'Profile ID (ex: 459658)'
+          schema:
+            $ref: '#/components/schemas/ProfileID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592220875825
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leaderboard'
+          description: ''
+          x-last-modified: 1592223340080
+    x-last-modified: 1592216473439
+  /strings:
+    summary: ''
+    description: Request a list of strings used by the API.
+    get:
+      tags:
+        - ''
+      parameters:
+        - deprecated: false
+          example: ''
+          name: game
+          description: >-
+            Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive
+            Edition=aoe2de)
+          schema:
+            $ref: '#/components/schemas/Game-hd-de'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221915008
+        - deprecated: false
+          example: ''
+          name: language
+          description: >-
+            Optional, defaults to en,
+
+            Language (en, de, el, es, es-MX, fr, hi, it, ja, ko, ms, nl, pt, ru,
+            tr, vi, zh, zh-TW)
+          schema:
+            $ref: '#/components/schemas/Language'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592221962251
+      responses:
+        '200':
+          content:
+            'text/plain:charset=utf-8':
+              schema:
+                $ref: '#/components/schemas/LanguageStrings'
+          description: ''
+          x-last-modified: 1592223649135
+    x-last-modified: 1592216480362
+  /lobbies:
+    description: Request all open lobbies
+    get:
+      tags:
+        - ''
+      parameters:
+        - deprecated: false
+          example: ''
+          name: game
+          description: >-
+            Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive
+            Edition=aoe2de)
+
+
+            Default: aoe2de
+          schema:
+            $ref: '#/components/schemas/Game-hd-de'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592220987450
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lobbies'
+              example: ''
+          description: ''
+          x-last-modified: 1592223370827
+    x-last-modified: 1592216508282
+  /player/lastmatch:
+    summary: ''
+    description: >-
+      Request the last match the player started playing, this will be the
+      current match if they are still in game
+    get:
+      tags:
+        - ''
+      parameters:
+        - deprecated: false
+          example: ''
+          name: game
+          description: 'Game (Age of Empires 2:Definitive Edition=aoe2de)'
+          schema:
+            $ref: '#/components/schemas/Game-de'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221108476
+        - deprecated: false
+          example: ''
+          name: steam_id
+          description: |
+            steam_id or profile_id required
+          schema:
+            $ref: '#/components/schemas/SteamID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592221155428
+        - deprecated: false
+          example: ''
+          name: profile_id
+          description: steam_id or profile_id required
+          schema:
+            $ref: '#/components/schemas/ProfileID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592221179933
+      responses:
+        '200':
+          content:
+            'text/plain:charset=utf-8':
+              schema:
+                $ref: '#/components/schemas/Lastmatch'
+          description: ''
+          x-last-modified: 1592223510886
+    x-last-modified: 1592216918617
+  /player/matches:
+    summary: ''
+    description: Request the match history for a player
+    get:
+      tags:
+        - ''
+      parameters:
+        - deprecated: false
+          example: ''
+          name: game
+          description: 'Game (Age of Empires 2:Definitive Edition=aoe2de)'
+          schema:
+            $ref: '#/components/schemas/Game-de'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221349255
+        - deprecated: false
+          example: ''
+          name: start
+          description: Starting match (0 is the most recent match)
+          schema:
+            $ref: '#/components/schemas/Start'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221343797
+        - deprecated: false
+          example: ''
+          name: count
+          description: Number of matches to get (Must be 1000 or less))
+          schema:
+            $ref: '#/components/schemas/Count'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221384608
+        - deprecated: false
+          example: ''
+          name: steam_id
+          description: 'steamID64 (ex: 76561199003184910)'
+          schema:
+            $ref: '#/components/schemas/SteamID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592221405211
+        - deprecated: false
+          example: ''
+          name: profile_id
+          description: 'Profile ID (ex: 459658)'
+          schema:
+            $ref: '#/components/schemas/ProfileID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592221424716
+      responses:
+        '200':
+          content:
+            'text/plain:charset=utf-8':
+              schema:
+                $ref: '#/components/schemas/Matchhistory'
+          description: ''
+          x-last-modified: 1592223490892
+    x-last-modified: 1592216939866
+  /player/ratinghistory:
+    summary: ''
+    description: Request the current leaderboards
+    get:
+      tags:
+        - ''
+      parameters:
+        - deprecated: false
+          example: ''
+          name: game
+          description: 'Game (Age of Empires 2:Definitive Edition=aoe2de)'
+          schema:
+            $ref: '#/components/schemas/Game-de'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221493892
+        - deprecated: false
+          example: ''
+          name: leaderboard_id
+          description: >-
+            Leaderboard ID (Unranked=0, 1v1 Deathmatch=1, Team Deathmatch=2, 1v1
+            Random Map=3, Team Random Map=4)
+          schema:
+            $ref: '#/components/schemas/LeaderboardID'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221525736
+        - deprecated: false
+          example: ''
+          name: start
+          description: Starting match (0 is the most recent match)
+          schema:
+            $ref: '#/components/schemas/Start'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221553382
+        - deprecated: false
+          example: ''
+          name: count
+          description: Number of matches to get (Must be 10000 or less))
+          schema:
+            $ref: '#/components/schemas/Count'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592221576098
+        - deprecated: false
+          example: ''
+          name: steam_id
+          description: steam_id or profile_id required
+          schema:
+            $ref: '#/components/schemas/SteamID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592221603489
+        - deprecated: false
+          example: ''
+          name: profile_id
+          description: |
+            steam_id or profile_id required
+          schema:
+            $ref: '#/components/schemas/ProfileID'
+          in: query
+          required: false
+          allowEmptyValue: false
+          x-last-modified: 1592221635880
+      responses:
+        '200':
+          content:
+            'text/plain:charset=utf-8':
+              schema:
+                $ref: '#/components/schemas/Ratinghistory'
+          description: ''
+          x-last-modified: 1592223541616
+    x-last-modified: 1592217014224
+  /stats/players:
+    description: Request all open lobbies
+    get:
+      tags:
+        - ''
+      parameters:
+        - deprecated: false
+          example: ''
+          name: game
+          description: >-
+            Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive
+            Edition=aoe2de)
+          schema:
+            $ref: '#/components/schemas/Game-hd-de'
+          in: query
+          required: true
+          allowEmptyValue: false
+          x-last-modified: 1592223607926
+      responses:
+        '200':
+          content:
+            'text/plain:charset=utf-8':
+              schema:
+                $ref: '#/components/schemas/PlayersOnline'
+          description: ''
+          x-last-modified: 1592223617120
+    x-last-modified: 1592217049055
+components:
+  schemas:
+    Language:
+      format: ''
+      description: >-
+        Language (en, de, el, es, es-MX, fr, hi, it, ja, ko, ms, nl, pt, ru, tr,
+        vi, zh, zh-TW)
+      pattern: ''
+      enum:
+        - en
+        - de
+        - el
+        - es
+        - es-MX
+        - fr
+        - hi
+        - it
+        - ja
+        - ko
+        - ms
+        - nl
+        - pt
+        - ru
+        - tr
+        - vi
+        - zh
+        - zh-TW
+      type: string
+      properties:
+        language:
+          type: string
+        age:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        civ:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        game_type:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        leaderboard:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        map_size:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        map_type:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        rating_type:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        resources:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        speed:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        victory:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        visibility:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+      example: ''
+      x-last-modified: 1592219634911
+    Leaderboard:
+      type: object
+      properties:
+        total:
+          type: number
+        leaderboard_id:
+          type: number
+        start:
+          type: number
+        count:
+          type: number
+        leaderboard:
+          type: array
+          items:
+            type: object
+            properties:
+              profile_id:
+                type: number
+              rank:
+                type: number
+              rating:
+                type: number
+              steam_id:
+                type: string
+              icon:
+                type: string
+              name:
+                type: string
+              clan:
+                type: string
+              country:
+                type: string
+              previous_rating:
+                type: number
+              highest_rating:
+                type: number
+              streak:
+                type: number
+              lowest_streak:
+                type: number
+              highest_streak:
+                type: number
+              games:
+                type: number
+              wins:
+                type: number
+              losses:
+                type: number
+              drops:
+                type: number
+              last_match:
+                type: number
+              last_match_time:
+                type: number
+      example: ''
+      x-last-modified: 1592217567300
+    Lobbies:
+      type: object
+      properties:
+        match_id:
+          type: string
+        lobby_id:
+          type: string
+        match_uuid:
+          type: string
+        version:
+          type: string
+        name:
+          type: string
+        num_players:
+          type: number
+        num_slots:
+          type: number
+        average_rating:
+          type: string
+        cheats:
+          type: boolean
+        full_tech_tree:
+          type: boolean
+        ending_age:
+          type: number
+        expansion:
+          type: string
+        game_type:
+          type: number
+        has_custom_content:
+          type: string
+        has_password:
+          type: boolean
+        lock_speed:
+          type: boolean
+        lock_teams:
+          type: boolean
+        map_size:
+          type: number
+        map_type:
+          type: number
+        pop:
+          type: number
+        ranked:
+          type: boolean
+        leaderboard_id:
+          type: number
+        rating_type:
+          type: number
+        resources:
+          type: number
+        rms:
+          type: string
+        scenario:
+          type: string
+        server:
+          type: string
+        shared_exploration:
+          type: boolean
+        speed:
+          type: number
+        starting_age:
+          type: number
+        team_together:
+          type: boolean
+        team_positions:
+          type: boolean
+        treaty_length:
+          type: number
+        turbo:
+          type: boolean
+        victory:
+          type: number
+        victory_time:
+          type: number
+        visibility:
+          type: number
+        opened:
+          type: number
+        started:
+          type: string
+        finished:
+          type: string
+        players:
+          type: array
+          items:
+            type: object
+            properties:
+              profile_id:
+                type: number
+              steam_id:
+                type: string
+              name:
+                type: string
+              clan:
+                type: string
+              country:
+                type: string
+              slot:
+                type: number
+              slot_type:
+                type: number
+              rating:
+                type: string
+              rating_change:
+                type: string
+              games:
+                type: string
+              wins:
+                type: string
+              streak:
+                type: string
+              drops:
+                type: string
+              color:
+                type: string
+              team:
+                type: string
+              civ:
+                type: string
+              won:
+                type: string
+      example: ''
+      x-last-modified: 1592217835980
+    Lastmatch:
+      type: object
+      properties:
+        profile_id:
+          type: number
+        steam_id:
+          type: string
+        name:
+          type: string
+        country:
+          type: string
+        last_match:
+          type: object
+          properties:
+            match_id:
+              type: string
+            lobby_id:
+              type: string
+            match_uuid:
+              type: string
+            version:
+              type: string
+            name:
+              type: string
+            num_players:
+              type: number
+            num_slots:
+              type: number
+            average_rating:
+              type: string
+            cheats:
+              type: boolean
+            full_tech_tree:
+              type: boolean
+            ending_age:
+              type: number
+            expansion:
+              type: string
+            game_type:
+              type: number
+            has_custom_content:
+              type: string
+            has_password:
+              type: boolean
+            lock_speed:
+              type: boolean
+            lock_teams:
+              type: boolean
+            map_size:
+              type: number
+            map_type:
+              type: number
+            pop:
+              type: number
+            ranked:
+              type: boolean
+            leaderboard_id:
+              type: number
+            rating_type:
+              type: number
+            resources:
+              type: number
+            rms:
+              type: string
+            scenario:
+              type: string
+            server:
+              type: string
+            shared_exploration:
+              type: boolean
+            speed:
+              type: number
+            starting_age:
+              type: number
+            team_together:
+              type: boolean
+            team_positions:
+              type: boolean
+            treaty_length:
+              type: number
+            turbo:
+              type: boolean
+            victory:
+              type: number
+            victory_time:
+              type: number
+            visibility:
+              type: number
+            opened:
+              type: number
+            started:
+              type: number
+            finished:
+              type: number
+            players:
+              type: array
+              items:
+                type: object
+                properties:
+                  profile_id:
+                    type: number
+                  steam_id:
+                    type: string
+                  name:
+                    type: string
+                  clan:
+                    type: string
+                  country:
+                    type: string
+                  slot:
+                    type: number
+                  slot_type:
+                    type: number
+                  rating:
+                    type: number
+                  rating_change:
+                    type: string
+                  games:
+                    type: string
+                  wins:
+                    type: string
+                  streak:
+                    type: string
+                  drops:
+                    type: string
+                  color:
+                    type: number
+                  team:
+                    type: number
+                  civ:
+                    type: number
+                  won:
+                    type: string
+      example: ''
+      x-last-modified: 1592217905177
+    Matchhistory:
+      type: object
+      properties:
+        match_id:
+          type: string
+        lobby_id:
+          type: string
+        match_uuid:
+          type: string
+        version:
+          type: string
+        name:
+          type: string
+        num_players:
+          type: number
+        num_slots:
+          type: number
+        average_rating:
+          type: string
+        cheats:
+          type: boolean
+        full_tech_tree:
+          type: boolean
+        ending_age:
+          type: number
+        expansion:
+          type: string
+        game_type:
+          type: number
+        has_custom_content:
+          type: string
+        has_password:
+          type: boolean
+        lock_speed:
+          type: boolean
+        lock_teams:
+          type: boolean
+        map_size:
+          type: number
+        map_type:
+          type: number
+        pop:
+          type: number
+        ranked:
+          type: boolean
+        leaderboard_id:
+          type: number
+        rating_type:
+          type: number
+        resources:
+          type: number
+        rms:
+          type: string
+        scenario:
+          type: string
+        server:
+          type: string
+        shared_exploration:
+          type: boolean
+        speed:
+          type: number
+        starting_age:
+          type: number
+        team_together:
+          type: boolean
+        team_positions:
+          type: boolean
+        treaty_length:
+          type: number
+        turbo:
+          type: boolean
+        victory:
+          type: number
+        victory_time:
+          type: number
+        visibility:
+          type: number
+        opened:
+          type: number
+        started:
+          type: number
+        finished:
+          type: number
+        players:
+          type: array
+          items:
+            type: object
+            properties:
+              profile_id:
+                type: number
+              steam_id:
+                type: string
+              name:
+                type: string
+              clan:
+                type: string
+              country:
+                type: string
+              slot:
+                type: number
+              slot_type:
+                type: number
+              rating:
+                type: number
+              rating_change:
+                type: string
+              games:
+                type: string
+              wins:
+                type: string
+              streak:
+                type: string
+              drops:
+                type: string
+              color:
+                type: number
+              team:
+                type: number
+              civ:
+                type: number
+              won:
+                type: boolean
+      example: ''
+      x-last-modified: 1592218125586
+    Ratinghistory:
+      type: object
+      properties:
+        rating:
+          type: number
+        num_wins:
+          type: number
+        num_losses:
+          type: number
+        streak:
+          type: number
+        drops:
+          type: number
+        timestamp:
+          type: number
+      example: ''
+      x-last-modified: 1592218222860
+    PlayersOnline:
+      type: object
+      properties:
+        app_id:
+          type: number
+        player_stats:
+          type: array
+          items:
+            type: object
+            properties:
+              time:
+                type: number
+              num_players:
+                type: object
+                properties:
+                  steam:
+                    type: number
+                  multiplayer:
+                    type: number
+                  looking:
+                    type: number
+                  in_game:
+                    type: number
+                  multiplayer_1h:
+                    type: number
+                  multiplayer_24h:
+                    type: number
+      example: ''
+      x-last-modified: 1592218718818
+    Game-hd-de:
+      format: ''
+      description: >-
+        Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive
+        Edition=aoe2de)
+      pattern: ''
+      enum:
+        - aoe2hd
+        - aoe2de
+      type: string
+      example: ''
+      x-last-modified: 1592219467976
+    Game-de:
+      format: ''
+      description: 'Game (Age of Empires 2:Definitive Edition=aoe2de)'
+      pattern: ''
+      enum:
+        - aoe2de
+      type: string
+      example: ''
+      x-last-modified: 1592219665290
+    LeaderboardID:
+      format: int32
+      description: >-
+        Leaderboard ID (Unranked=0, 1v1 Deathmatch=1, Team Deathmatch=2, 1v1
+        Random Map=3, Team Random Map=4)
+      pattern: ''
+      enum:
+        - '0'
+        - '1'
+        - '2'
+        - '3'
+        - '4'
+      type: integer
+      example: ''
+      x-last-modified: 1592219785260
+    Start:
+      format: int32
+      description: 'Starting rank (Ignored if search, steam_id, or profile_id are defined)'
+      pattern: ''
+      enum:
+        - ''
+      type: integer
+      example: ''
+      x-last-modified: 1592219827032
+    Count:
+      format: int32
+      description: Number of leaderboard entries to get (Must be 10000 or less))
+      pattern: ''
+      enum:
+        - ''
+      type: integer
+      example: ''
+      x-last-modified: 1592219883008
+    Search:
+      format: ''
+      description: Name to Search
+      pattern: ''
+      enum:
+        - ''
+      type: string
+      example: ''
+      x-last-modified: 1592219905546
+    SteamID:
+      format: int64
+      description: 'steamID64 (ex: 76561199003184910)'
+      pattern: ''
+      enum:
+        - ''
+      type: integer
+      example: ''
+      x-last-modified: 1592220022513
+    ProfileID:
+      format: int32
+      description: 'Profile ID (ex: 459658)'
+      pattern: ''
+      enum:
+        - ''
+      type: integer
+      example: ''
+      x-last-modified: 1592220046640
+    LanguageStrings:
+      type: object
+      properties:
+        language:
+          type: string
+        age:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        civ:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        game_type:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        leaderboard:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        map_size:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        map_type:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        rating_type:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        resources:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        speed:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        victory:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+        visibility:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              string:
+                type: string
+      example: ''
+      x-last-modified: 1592221856564
+  responses:
+    '200':
+      description: Operation succeeded
+      x-last-modified: 1592215100197
+  securitySchemes: {}
+  parameters: {}
+externalDocs:
+  description: Find more info here
+  url: 'https://aoe2.net/#api'
+tags: []
+security: []
