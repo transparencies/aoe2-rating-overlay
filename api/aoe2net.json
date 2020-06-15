@@ -6,9 +6,7 @@
     "description": "AoE2 ladder with ratings, showing ongoing matches and lobbies",
     "x-logo": {
       "url": ""
-    },
-    "license": null,
-    "contact": null
+    }
   },
   "servers": [
     {
@@ -124,13 +122,10 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Leaderboard"
-                },
-                "encoding": ""
+                }
               }
             },
-            "$ref": "",
             "description": "",
-            "type": "",
             "x-last-modified": 1592223340080
           }
         }
@@ -178,13 +173,10 @@
               "text/plain:charset=utf-8": {
                 "schema": {
                   "$ref": "#/components/schemas/LanguageStrings"
-                },
-                "encoding": ""
+                }
               }
             },
-            "$ref": "",
             "description": "",
-            "type": "",
             "x-last-modified": 1592223649135
           }
         }
@@ -219,13 +211,10 @@
                 "schema": {
                   "$ref": "#/components/schemas/Lobbies"
                 },
-                "example": "",
-                "encoding": ""
+                "example": ""
               }
             },
-            "$ref": "",
             "description": "",
-            "type": "",
             "x-last-modified": 1592223370827
           }
         }
@@ -286,13 +275,10 @@
               "text/plain:charset=utf-8": {
                 "schema": {
                   "$ref": "#/components/schemas/Lastmatch"
-                },
-                "encoding": ""
+                }
               }
             },
-            "$ref": "",
             "description": "",
-            "type": "",
             "x-last-modified": 1592223510886
           }
         }
@@ -379,13 +365,10 @@
               "text/plain:charset=utf-8": {
                 "schema": {
                   "$ref": "#/components/schemas/Matchhistory"
-                },
-                "encoding": ""
+                }
               }
             },
-            "$ref": "",
             "description": "",
-            "type": "",
             "x-last-modified": 1592223490892
           }
         }
@@ -485,13 +468,10 @@
               "text/plain:charset=utf-8": {
                 "schema": {
                   "$ref": "#/components/schemas/Ratinghistory"
-                },
-                "encoding": ""
+                }
               }
             },
-            "$ref": "",
             "description": "",
-            "type": "",
             "x-last-modified": 1592223541616
           }
         }
@@ -508,15 +488,15 @@
           {
             "deprecated": false,
             "example": "",
+            "name": "game",
+            "description": "Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive Edition=aoe2de)",
             "schema": {
               "$ref": "#/components/schemas/Game-hd-de"
             },
             "in": "query",
             "required": true,
             "allowEmptyValue": false,
-            "x-last-modified": 1592223607926,
-            "description": "Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive Edition=aoe2de)",
-            "name": "game"
+            "x-last-modified": 1592223607926
           }
         ],
         "responses": {
@@ -525,13 +505,10 @@
               "text/plain:charset=utf-8": {
                 "schema": {
                   "$ref": "#/components/schemas/PlayersOnline"
-                },
-                "encoding": ""
+                }
               }
             },
-            "$ref": "",
             "description": "",
-            "type": "",
             "x-last-modified": 1592223617120
           }
         }
