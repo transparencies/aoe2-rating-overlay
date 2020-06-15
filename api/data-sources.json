@@ -1,10 +1,20 @@
 {
   "aoe2net": {
-    "servers": {
-      "url": "https://aoe2.net/api"
+    "info": {
+      "title": "aoe2.net",
+      "description": "AoE2 ladder with ratings, showing ongoing matches and lobbies",
+      "contact": "",
+      "version": "1.0.0",
+      "license": ""
     },
-    "doc": "https://aoe2.net/#api",
-    "version": "1.0.0",
+    "servers": {
+      "url": "https://aoe2.net/api",
+      "description": ""
+    },
+    "externalDocs": {
+      "description": "Find more info here",
+      "url": "https://aoe2.net/#api"
+    },
     "paths": {
       "strings": {
         "game": {
@@ -65,16 +75,21 @@
           "type": "int"
         },
         "start": {
-          // Ignored if search, steam_id, or profile_id are defined
           "default": null,
           "required": true,
-          "type": "int"
+          "type": "int",
+          "ignored-if": [
+            "search",
+            "steam_id",
+            "profile_id"
+          ]
         },
         "count": {
-          // Must be 10000 or less
           "default": 1,
           "required": true,
-          "type": "int"
+          "type": "int",
+          "min": 1,
+          "max": 10000
         },
         "search": {
           "default": null,
@@ -95,7 +110,7 @@
       "lobbies": {
         "game": {
           "default": "aoe2de",
-          "required": "true",
+          "required": true,
           "available": [
             "aoe2hd",
             "aoe2de"
@@ -107,7 +122,7 @@
         "lastmatch": {
           "game": {
             "default": "aoe2de",
-            "required": "true",
+            "required": true,
             "available": [
               "aoe2hd",
               "aoe2de"
@@ -115,22 +130,20 @@
             "type": "str"
           },
           "steam_id": {
-            // steam_id or profile_id required
             "default": null,
-            "required": false,
+            "required": "NOT profile_id",
             "type": "int"
           },
           "profile_id": {
-            // steam_id or profile_id required
             "default": null,
-            "required": false,
+            "required": "NOT steam_id",
             "type": "int"
           }
         },
         "matches": {
           "game": {
             "default": "aoe2de",
-            "required": "true",
+            "required": true,
             "available": [
               "aoe2hd",
               "aoe2de"
@@ -138,27 +151,30 @@
             "type": "str"
           },
           "start": {
-            // Ignored if search, steam_id, or profile_id are defined
             "default": null,
             "required": true,
-            "type": "int"
+            "type": "int",
+            "ignored-if": [
+              "search",
+              "steam_id",
+              "profile_id"
+            ]
           },
           "count": {
-            // Must be 10000 or less
             "default": 1,
             "required": true,
-            "type": "int"
+            "type": "int",
+            "min": 1,
+            "max": 10000
           },
           "steam_id": {
-            // steam_id or profile_id required
             "default": null,
-            "required": false,
+            "required": "NOT profile_id",
             "type": "int"
           },
           "profile_id": {
-            // steam_id or profile_id required
             "default": null,
-            "required": false,
+            "required": "NOT steam_id",
             "type": "int"
           }
         },
@@ -185,16 +201,21 @@
             "type": "int"
           },
           "start": {
-            // Ignored if search, steam_id, or profile_id are defined
             "default": null,
             "required": true,
-            "type": "int"
+            "type": "int",
+            "ignored-if": [
+              "search",
+              "steam_id",
+              "profile_id"
+            ]
           },
           "count": {
-            // Must be 10000 or less
             "default": 1,
             "required": true,
-            "type": "int"
+            "type": "int",
+            "min": 1,
+            "max": 10000
           },
           "steam_id": {
             "default": null,
@@ -212,7 +233,7 @@
         "players": {
           "game": {
             "default": "aoe2de",
-            "required": "true",
+            "required": true,
             "available": [
               "aoe2hd",
               "aoe2de"
