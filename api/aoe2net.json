@@ -1,0 +1,1719 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "aoe2net",
+    "version": "1.0",
+    "description": "AoE2 ladder with ratings, showing ongoing matches and lobbies",
+    "x-logo": {
+      "url": ""
+    }
+  },
+  "paths": {
+    "/leaderboard": {
+      "summary": "",
+      "description": "Request the current leaderboards",
+      "get": {
+        "tags": [""],
+        "parameters": [
+          {
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "schema": {
+              "$ref": "#/components/schemas/Game-de"
+            },
+            "x-last-modified": 1592220693456,
+            "description": "Game (Age of Empires 2:Definitive Edition=aoe2de)",
+            "name": "game"
+          },
+          {
+            "name": "leaderboard_id",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Leaderboard ID (Unranked=0, 1v1 Deathmatch=1, Team Deathmatch=2, 1v1 Random Map=3, Team Random Map=4)",
+            "schema": {
+              "$ref": "#/components/schemas/LeaderboardID"
+            },
+            "x-last-modified": 1592220684976
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Starting rank (Ignored if search, steam_id, or profile_id are defined)",
+            "schema": {
+              "$ref": "#/components/schemas/Start"
+            },
+            "x-last-modified": 1592220720278
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Number of leaderboard entries to get (Must be 10000 or less))",
+            "schema": {
+              "$ref": "#/components/schemas/Count"
+            },
+            "x-last-modified": 1592220745297
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Name Search",
+            "schema": {
+              "$ref": "#/components/schemas/Search"
+            },
+            "x-last-modified": 1592220767904
+          },
+          {
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "steamID64 (ex: 76561199003184910)",
+            "schema": {
+              "$ref": "#/components/schemas/SteamID"
+            },
+            "x-last-modified": 1592220882359,
+            "name": "steam_id"
+          },
+          {
+            "name": "profile_id",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Profile ID (ex: 459658)",
+            "schema": {
+              "$ref": "#/components/schemas/ProfileID"
+            },
+            "x-last-modified": 1592220875825
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "",
+            "description": "",
+            "content": {
+              "application/json": {
+                "encoding": "",
+                "schema": {
+                  "$ref": "#/components/schemas/Leaderboard"
+                }
+              }
+            },
+            "x-last-modified": 1592221030456,
+            "$ref": ""
+          }
+        }
+      },
+      "x-last-modified": 1592216473439,
+      "parameters": []
+    },
+    "/strings": {
+      "summary": "",
+      "description": "Request a list of strings used by the API.",
+      "get": {
+        "tags": [""],
+        "responses": {
+          "200": {
+            "type": "",
+            "description": "",
+            "content": {
+              "application/json": {
+                "encoding": "",
+                "schema": {
+                  "$ref": "#/components/schemas/LanguageStrings"
+                }
+              }
+            },
+            "x-last-modified": 1592221883793,
+            "$ref": ""
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "schema": {
+              "$ref": "#/components/schemas/Game-hd-de"
+            },
+            "x-last-modified": 1592221915008,
+            "description": "Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive Edition=aoe2de)",
+            "name": "game"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Optional, defaults to en,\nLanguage (en, de, el, es, es-MX, fr, hi, it, ja, ko, ms, nl, pt, ru, tr, vi, zh, zh-TW)",
+            "schema": {
+              "$ref": "#/components/schemas/Language"
+            },
+            "x-last-modified": 1592221962251
+          }
+        ]
+      },
+      "x-last-modified": 1592216480362,
+      "parameters": []
+    },
+    "/lobbies": {
+      "description": "Request all open lobbies",
+      "get": {
+        "tags": [""],
+        "responses": {
+          "200": {
+            "type": "",
+            "description": "",
+            "content": {
+              "application/json": {
+                "encoding": "",
+                "example": "",
+                "schema": {
+                  "$ref": "#/components/schemas/Lobbies"
+                }
+              }
+            },
+            "headers": {},
+            "x-last-modified": 1592219024412,
+            "$ref": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "game",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive Edition=aoe2de)\n\nDefault: aoe2de",
+            "schema": {
+              "$ref": "#/components/schemas/Game-hd-de"
+            },
+            "x-last-modified": 1592220987450
+          }
+        ]
+      },
+      "x-last-modified": 1592216508282,
+      "parameters": []
+    },
+    "/player/lastmatch": {
+      "summary": "",
+      "description": "Request the last match the player started playing, this will be the current match if they are still in game",
+      "get": {
+        "tags": [""],
+        "parameters": [
+          {
+            "name": "game",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Game (Age of Empires 2:Definitive Edition=aoe2de)",
+            "schema": {
+              "$ref": "#/components/schemas/Game-de"
+            },
+            "x-last-modified": 1592221108476
+          },
+          {
+            "name": "steam_id",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "steam_id or profile_id required\n",
+            "schema": {
+              "$ref": "#/components/schemas/SteamID"
+            },
+            "x-last-modified": 1592221155428
+          },
+          {
+            "name": "profile_id",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "steam_id or profile_id required",
+            "schema": {
+              "$ref": "#/components/schemas/ProfileID"
+            },
+            "x-last-modified": 1592221179933
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "",
+            "description": "",
+            "content": {
+              "application/json": {
+                "encoding": "",
+                "schema": {
+                  "$ref": "#/components/schemas/Lastmatch"
+                }
+              }
+            },
+            "x-last-modified": 1592221205588,
+            "$ref": ""
+          }
+        }
+      },
+      "x-last-modified": 1592216918617,
+      "parameters": []
+    },
+    "/player/matches": {
+      "summary": "",
+      "description": "Request the match history for a player",
+      "get": {
+        "tags": [""],
+        "responses": {
+          "200": {
+            "type": "",
+            "description": "",
+            "content": {
+              "application/json": {
+                "encoding": "",
+                "schema": {
+                  "$ref": "#/components/schemas/Matchhistory"
+                }
+              }
+            },
+            "x-last-modified": 1592221241181,
+            "$ref": ""
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "schema": {
+              "$ref": "#/components/schemas/Game-de"
+            },
+            "x-last-modified": 1592221349255,
+            "description": "Game (Age of Empires 2:Definitive Edition=aoe2de)",
+            "name": "game"
+          },
+          {
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "schema": {
+              "$ref": "#/components/schemas/Start"
+            },
+            "x-last-modified": 1592221343797,
+            "description": "Starting match (0 is the most recent match)",
+            "name": "start"
+          },
+          {
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "schema": {
+              "$ref": "#/components/schemas/Count"
+            },
+            "description": "Number of matches to get (Must be 1000 or less))",
+            "x-last-modified": 1592221384608,
+            "name": "count"
+          },
+          {
+            "name": "steam_id",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "steamID64 (ex: 76561199003184910)",
+            "schema": {
+              "$ref": "#/components/schemas/SteamID"
+            },
+            "x-last-modified": 1592221405211
+          },
+          {
+            "name": "profile_id",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Profile ID (ex: 459658)",
+            "schema": {
+              "$ref": "#/components/schemas/ProfileID"
+            },
+            "x-last-modified": 1592221424716
+          }
+        ]
+      },
+      "x-last-modified": 1592216939866,
+      "parameters": []
+    },
+    "/player/ratinghistory": {
+      "summary": "",
+      "description": "Request the current leaderboards",
+      "get": {
+        "tags": [""],
+        "responses": {
+          "200": {
+            "type": "",
+            "description": "",
+            "content": {
+              "application/json": {
+                "encoding": "",
+                "schema": {
+                  "$ref": "#/components/schemas/Ratinghistory"
+                }
+              }
+            },
+            "x-last-modified": 1592221457264,
+            "$ref": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "game",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Game (Age of Empires 2:Definitive Edition=aoe2de)",
+            "schema": {
+              "$ref": "#/components/schemas/Game-de"
+            },
+            "x-last-modified": 1592221493892
+          },
+          {
+            "name": "leaderboard_id",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Leaderboard ID (Unranked=0, 1v1 Deathmatch=1, Team Deathmatch=2, 1v1 Random Map=3, Team Random Map=4)",
+            "schema": {
+              "$ref": "#/components/schemas/LeaderboardID"
+            },
+            "x-last-modified": 1592221525736
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Starting match (0 is the most recent match)",
+            "schema": {
+              "$ref": "#/components/schemas/Start"
+            },
+            "x-last-modified": 1592221553382
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "Number of matches to get (Must be 10000 or less))",
+            "schema": {
+              "$ref": "#/components/schemas/Count"
+            },
+            "x-last-modified": 1592221576098
+          },
+          {
+            "name": "steam_id",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "steam_id or profile_id required",
+            "schema": {
+              "$ref": "#/components/schemas/SteamID"
+            },
+            "x-last-modified": 1592221603489
+          },
+          {
+            "name": "profile_id",
+            "in": "query",
+            "example": "",
+            "required": false,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "description": "steam_id or profile_id required\n",
+            "schema": {
+              "$ref": "#/components/schemas/ProfileID"
+            },
+            "x-last-modified": 1592221635880
+          }
+        ]
+      },
+      "x-last-modified": 1592217014224,
+      "parameters": []
+    },
+    "/stats/players": {
+      "description": "Request all open lobbies",
+      "get": {
+        "tags": [""],
+        "responses": {
+          "200": {
+            "type": "",
+            "description": "",
+            "content": {
+              "application/json": {
+                "encoding": "",
+                "schema": {
+                  "$ref": "#/components/schemas/PlayersOnline"
+                }
+              }
+            },
+            "x-last-modified": 1592221701650,
+            "$ref": ""
+          }
+        },
+        "parameters": [
+          {
+            "name": "game",
+            "in": "query",
+            "example": "",
+            "required": true,
+            "deprecated": false,
+            "allowEmptyValue": false,
+            "schema": {
+              "$ref": "#/components/schemas/Game-hd-de"
+            },
+            "x-last-modified": 1592221723466
+          }
+        ]
+      },
+      "x-last-modified": 1592217049055,
+      "parameters": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "Language": {
+        "type": "string",
+        "example": "",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "age": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "civ": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "game_type": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "leaderboard": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "map_size": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "map_type": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "rating_type": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "speed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "victory": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "visibility": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-last-modified": 1592219634911,
+        "format": "",
+        "pattern": "",
+        "enum": [
+          "en",
+          "de",
+          "el",
+          "es",
+          "es-MX",
+          "fr",
+          "hi",
+          "it",
+          "ja",
+          "ko",
+          "ms",
+          "nl",
+          "pt",
+          "ru",
+          "tr",
+          "vi",
+          "zh",
+          "zh-TW"
+        ],
+        "description": "Language (en, de, el, es, es-MX, fr, hi, it, ja, ko, ms, nl, pt, ru, tr, vi, zh, zh-TW)"
+      },
+      "Leaderboard": {
+        "type": "object",
+        "example": "",
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "leaderboard_id": {
+            "type": "number"
+          },
+          "start": {
+            "type": "number"
+          },
+          "count": {
+            "type": "number"
+          },
+          "leaderboard": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "profile_id": {
+                  "type": "number"
+                },
+                "rank": {
+                  "type": "number"
+                },
+                "rating": {
+                  "type": "number"
+                },
+                "steam_id": {
+                  "type": "string"
+                },
+                "icon": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "clan": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "previous_rating": {
+                  "type": "number"
+                },
+                "highest_rating": {
+                  "type": "number"
+                },
+                "streak": {
+                  "type": "number"
+                },
+                "lowest_streak": {
+                  "type": "number"
+                },
+                "highest_streak": {
+                  "type": "number"
+                },
+                "games": {
+                  "type": "number"
+                },
+                "wins": {
+                  "type": "number"
+                },
+                "losses": {
+                  "type": "number"
+                },
+                "drops": {
+                  "type": "number"
+                },
+                "last_match": {
+                  "type": "number"
+                },
+                "last_match_time": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "x-last-modified": 1592217567300
+      },
+      "Lobbies": {
+        "type": "object",
+        "example": "",
+        "properties": {
+          "match_id": {
+            "type": "string"
+          },
+          "lobby_id": {
+            "type": "string"
+          },
+          "match_uuid": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "num_players": {
+            "type": "number"
+          },
+          "num_slots": {
+            "type": "number"
+          },
+          "average_rating": {
+            "type": "string"
+          },
+          "cheats": {
+            "type": "boolean"
+          },
+          "full_tech_tree": {
+            "type": "boolean"
+          },
+          "ending_age": {
+            "type": "number"
+          },
+          "expansion": {
+            "type": "string"
+          },
+          "game_type": {
+            "type": "number"
+          },
+          "has_custom_content": {
+            "type": "string"
+          },
+          "has_password": {
+            "type": "boolean"
+          },
+          "lock_speed": {
+            "type": "boolean"
+          },
+          "lock_teams": {
+            "type": "boolean"
+          },
+          "map_size": {
+            "type": "number"
+          },
+          "map_type": {
+            "type": "number"
+          },
+          "pop": {
+            "type": "number"
+          },
+          "ranked": {
+            "type": "boolean"
+          },
+          "leaderboard_id": {
+            "type": "number"
+          },
+          "rating_type": {
+            "type": "number"
+          },
+          "resources": {
+            "type": "number"
+          },
+          "rms": {
+            "type": "string"
+          },
+          "scenario": {
+            "type": "string"
+          },
+          "server": {
+            "type": "string"
+          },
+          "shared_exploration": {
+            "type": "boolean"
+          },
+          "speed": {
+            "type": "number"
+          },
+          "starting_age": {
+            "type": "number"
+          },
+          "team_together": {
+            "type": "boolean"
+          },
+          "team_positions": {
+            "type": "boolean"
+          },
+          "treaty_length": {
+            "type": "number"
+          },
+          "turbo": {
+            "type": "boolean"
+          },
+          "victory": {
+            "type": "number"
+          },
+          "victory_time": {
+            "type": "number"
+          },
+          "visibility": {
+            "type": "number"
+          },
+          "opened": {
+            "type": "number"
+          },
+          "started": {
+            "type": "string"
+          },
+          "finished": {
+            "type": "string"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "profile_id": {
+                  "type": "number"
+                },
+                "steam_id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "clan": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "slot": {
+                  "type": "number"
+                },
+                "slot_type": {
+                  "type": "number"
+                },
+                "rating": {
+                  "type": "string"
+                },
+                "rating_change": {
+                  "type": "string"
+                },
+                "games": {
+                  "type": "string"
+                },
+                "wins": {
+                  "type": "string"
+                },
+                "streak": {
+                  "type": "string"
+                },
+                "drops": {
+                  "type": "string"
+                },
+                "color": {
+                  "type": "string"
+                },
+                "team": {
+                  "type": "string"
+                },
+                "civ": {
+                  "type": "string"
+                },
+                "won": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-last-modified": 1592217835980
+      },
+      "Lastmatch": {
+        "type": "object",
+        "example": "",
+        "properties": {
+          "profile_id": {
+            "type": "number"
+          },
+          "steam_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "last_match": {
+            "type": "object",
+            "properties": {
+              "match_id": {
+                "type": "string"
+              },
+              "lobby_id": {
+                "type": "string"
+              },
+              "match_uuid": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "num_players": {
+                "type": "number"
+              },
+              "num_slots": {
+                "type": "number"
+              },
+              "average_rating": {
+                "type": "string"
+              },
+              "cheats": {
+                "type": "boolean"
+              },
+              "full_tech_tree": {
+                "type": "boolean"
+              },
+              "ending_age": {
+                "type": "number"
+              },
+              "expansion": {
+                "type": "string"
+              },
+              "game_type": {
+                "type": "number"
+              },
+              "has_custom_content": {
+                "type": "string"
+              },
+              "has_password": {
+                "type": "boolean"
+              },
+              "lock_speed": {
+                "type": "boolean"
+              },
+              "lock_teams": {
+                "type": "boolean"
+              },
+              "map_size": {
+                "type": "number"
+              },
+              "map_type": {
+                "type": "number"
+              },
+              "pop": {
+                "type": "number"
+              },
+              "ranked": {
+                "type": "boolean"
+              },
+              "leaderboard_id": {
+                "type": "number"
+              },
+              "rating_type": {
+                "type": "number"
+              },
+              "resources": {
+                "type": "number"
+              },
+              "rms": {
+                "type": "string"
+              },
+              "scenario": {
+                "type": "string"
+              },
+              "server": {
+                "type": "string"
+              },
+              "shared_exploration": {
+                "type": "boolean"
+              },
+              "speed": {
+                "type": "number"
+              },
+              "starting_age": {
+                "type": "number"
+              },
+              "team_together": {
+                "type": "boolean"
+              },
+              "team_positions": {
+                "type": "boolean"
+              },
+              "treaty_length": {
+                "type": "number"
+              },
+              "turbo": {
+                "type": "boolean"
+              },
+              "victory": {
+                "type": "number"
+              },
+              "victory_time": {
+                "type": "number"
+              },
+              "visibility": {
+                "type": "number"
+              },
+              "opened": {
+                "type": "number"
+              },
+              "started": {
+                "type": "number"
+              },
+              "finished": {
+                "type": "number"
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "profile_id": {
+                      "type": "number"
+                    },
+                    "steam_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "clan": {
+                      "type": "string"
+                    },
+                    "country": {
+                      "type": "string"
+                    },
+                    "slot": {
+                      "type": "number"
+                    },
+                    "slot_type": {
+                      "type": "number"
+                    },
+                    "rating": {
+                      "type": "number"
+                    },
+                    "rating_change": {
+                      "type": "string"
+                    },
+                    "games": {
+                      "type": "string"
+                    },
+                    "wins": {
+                      "type": "string"
+                    },
+                    "streak": {
+                      "type": "string"
+                    },
+                    "drops": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "number"
+                    },
+                    "team": {
+                      "type": "number"
+                    },
+                    "civ": {
+                      "type": "number"
+                    },
+                    "won": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-last-modified": 1592217905177
+      },
+      "Matchhistory": {
+        "type": "object",
+        "example": "",
+        "properties": {
+          "match_id": {
+            "type": "string"
+          },
+          "lobby_id": {
+            "type": "string"
+          },
+          "match_uuid": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "num_players": {
+            "type": "number"
+          },
+          "num_slots": {
+            "type": "number"
+          },
+          "average_rating": {
+            "type": "string"
+          },
+          "cheats": {
+            "type": "boolean"
+          },
+          "full_tech_tree": {
+            "type": "boolean"
+          },
+          "ending_age": {
+            "type": "number"
+          },
+          "expansion": {
+            "type": "string"
+          },
+          "game_type": {
+            "type": "number"
+          },
+          "has_custom_content": {
+            "type": "string"
+          },
+          "has_password": {
+            "type": "boolean"
+          },
+          "lock_speed": {
+            "type": "boolean"
+          },
+          "lock_teams": {
+            "type": "boolean"
+          },
+          "map_size": {
+            "type": "number"
+          },
+          "map_type": {
+            "type": "number"
+          },
+          "pop": {
+            "type": "number"
+          },
+          "ranked": {
+            "type": "boolean"
+          },
+          "leaderboard_id": {
+            "type": "number"
+          },
+          "rating_type": {
+            "type": "number"
+          },
+          "resources": {
+            "type": "number"
+          },
+          "rms": {
+            "type": "string"
+          },
+          "scenario": {
+            "type": "string"
+          },
+          "server": {
+            "type": "string"
+          },
+          "shared_exploration": {
+            "type": "boolean"
+          },
+          "speed": {
+            "type": "number"
+          },
+          "starting_age": {
+            "type": "number"
+          },
+          "team_together": {
+            "type": "boolean"
+          },
+          "team_positions": {
+            "type": "boolean"
+          },
+          "treaty_length": {
+            "type": "number"
+          },
+          "turbo": {
+            "type": "boolean"
+          },
+          "victory": {
+            "type": "number"
+          },
+          "victory_time": {
+            "type": "number"
+          },
+          "visibility": {
+            "type": "number"
+          },
+          "opened": {
+            "type": "number"
+          },
+          "started": {
+            "type": "number"
+          },
+          "finished": {
+            "type": "number"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "profile_id": {
+                  "type": "number"
+                },
+                "steam_id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "clan": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "slot": {
+                  "type": "number"
+                },
+                "slot_type": {
+                  "type": "number"
+                },
+                "rating": {
+                  "type": "number"
+                },
+                "rating_change": {
+                  "type": "string"
+                },
+                "games": {
+                  "type": "string"
+                },
+                "wins": {
+                  "type": "string"
+                },
+                "streak": {
+                  "type": "string"
+                },
+                "drops": {
+                  "type": "string"
+                },
+                "color": {
+                  "type": "number"
+                },
+                "team": {
+                  "type": "number"
+                },
+                "civ": {
+                  "type": "number"
+                },
+                "won": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "x-last-modified": 1592218125586
+      },
+      "Ratinghistory": {
+        "type": "object",
+        "example": "",
+        "properties": {
+          "rating": {
+            "type": "number"
+          },
+          "num_wins": {
+            "type": "number"
+          },
+          "num_losses": {
+            "type": "number"
+          },
+          "streak": {
+            "type": "number"
+          },
+          "drops": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "number"
+          }
+        },
+        "x-last-modified": 1592218222860
+      },
+      "PlayersOnline": {
+        "type": "object",
+        "example": "",
+        "properties": {
+          "app_id": {
+            "type": "number"
+          },
+          "player_stats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "number"
+                },
+                "num_players": {
+                  "type": "object",
+                  "properties": {
+                    "steam": {
+                      "type": "number"
+                    },
+                    "multiplayer": {
+                      "type": "number"
+                    },
+                    "looking": {
+                      "type": "number"
+                    },
+                    "in_game": {
+                      "type": "number"
+                    },
+                    "multiplayer_1h": {
+                      "type": "number"
+                    },
+                    "multiplayer_24h": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-last-modified": 1592218718818
+      },
+      "Game-hd-de": {
+        "example": "",
+        "type": "string",
+        "format": "",
+        "pattern": "",
+        "enum": [
+          "aoe2hd",
+          "aoe2de"
+        ],
+        "description": "Game (Age of Empires 2:HD=aoe2hd, Age of Empires 2:Definitive Edition=aoe2de)",
+        "x-last-modified": 1592219467976
+      },
+      "Game-de": {
+        "example": "",
+        "type": "string",
+        "format": "",
+        "pattern": "",
+        "enum": [
+          "aoe2de"
+        ],
+        "description": "Game (Age of Empires 2:Definitive Edition=aoe2de)",
+        "x-last-modified": 1592219665290
+      },
+      "LeaderboardID": {
+        "example": "",
+        "type": "integer",
+        "format": "int32",
+        "pattern": "",
+        "enum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "description": "Leaderboard ID (Unranked=0, 1v1 Deathmatch=1, Team Deathmatch=2, 1v1 Random Map=3, Team Random Map=4)",
+        "x-last-modified": 1592219785260
+      },
+      "Start": {
+        "example": "",
+        "type": "integer",
+        "format": "int32",
+        "pattern": "",
+        "enum": [""],
+        "description": "Starting rank (Ignored if search, steam_id, or profile_id are defined)",
+        "x-last-modified": 1592219827032
+      },
+      "Count": {
+        "example": "",
+        "type": "integer",
+        "format": "int32",
+        "pattern": "",
+        "enum": [""],
+        "description": "Number of leaderboard entries to get (Must be 10000 or less))",
+        "x-last-modified": 1592219883008
+      },
+      "Search": {
+        "example": "",
+        "type": "string",
+        "format": "",
+        "pattern": "",
+        "enum": [""],
+        "description": "Name to Search",
+        "x-last-modified": 1592219905546
+      },
+      "SteamID": {
+        "example": "",
+        "type": "integer",
+        "format": "int64",
+        "pattern": "",
+        "enum": [""],
+        "description": "steamID64 (ex: 76561199003184910)",
+        "x-last-modified": 1592220022513
+      },
+      "ProfileID": {
+        "example": "",
+        "type": "integer",
+        "format": "int32",
+        "pattern": "",
+        "enum": [""],
+        "description": "Profile ID (ex: 459658)",
+        "x-last-modified": 1592220046640
+      },
+      "LanguageStrings": {
+        "type": "object",
+        "example": "",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "age": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "civ": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "game_type": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "leaderboard": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "map_size": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "map_type": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "rating_type": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "speed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "victory": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "visibility": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "string": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "x-last-modified": 1592221856564
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Operation succeeded",
+        "x-last-modified": 1592215100197
+      }
+    },
+    "parameters": {},
+    "examples": {},
+    "requestBodies": {},
+    "headers": {},
+    "securitySchemes": {},
+    "links": {},
+    "callbacks": {}
+  },
+  "security": [],
+  "tags": [],
+  "externalDocs": {
+    "url": "https://aoe2.net/#api",
+    "description": "Find more info here"
+  },
+  "servers": [
+    {
+      "url": "https://aoe2.net/api",
+      "description": "",
+      "variables": {},
+      "x-last-modified": 1592214021684
+    }
+  ]
+}
