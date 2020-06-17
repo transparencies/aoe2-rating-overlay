@@ -14,3 +14,5 @@ Feature list
     • Data sources
         ? assign single values from data-sources to template variables
         ? use a premade composition of free, open-source templates (rating, civ stats, etc.)
+    • Internationalization (i18n) & Localization (l10n)
+        ? ability to change/set the languages output

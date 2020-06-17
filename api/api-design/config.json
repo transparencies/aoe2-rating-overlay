@@ -1,6 +1,7 @@
 {
   "Package-Info": {
     "Version": "0.1.0",
+    "Language": "en",
     "Creator": "simonsan",
     "Contact": "eMail",
     "License": "GPLv3"
@@ -28,10 +29,16 @@
   "Effects": {
       
   },
-  "Package-Content": [
-    "overlay.1.svg",
-    "overlay.2.svg"
+  "Package-Content": {
+  	"Templates": [
+    "template/overlay.1.svg",
+    "template/overlay.2.svg"
   ],
+	"Internationalisation": [
+		"i18n/japanese.itl",
+		"i18n/chinese.itl",
+	]
+  },
   "Card-Description": [
     {
       "filename": "overlay.1.svg"
