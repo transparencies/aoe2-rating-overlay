@@ -1,0 +1,1862 @@
+openapi: 3.0.2
+info:
+  title: 'aoestats.io'
+  version: 'OpenAPI spec for api.aoestats.io Provides an API for data and stats
+  related to Age of Empires II Definitive Edition.'
+paths:
+  /de/:
+    get:
+      operationId: listapi_roots
+      description: 'Listing of all API views currently available. Note that these
+        APIs are rate limited
+
+        to 100 queries per user. Please contact me if this rate limit is negatively
+
+        affecting you and we can work something out.'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /de/{format}:
+    get:
+      operationId: Retrieveapi_root
+      description: 'Listing of all API views currently available. Note that these
+        APIs are rate limited
+
+        to 100 queries per user. Please contact me if this rate limit is negatively
+
+        affecting you and we can work something out.'
+      parameters:
+      - name: format
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /de/defs:
+    get:
+      operationId: listdefs
+      description: "Returns definitions for each magic number and magic string throughout\
+        \ the API. The\nfollowing enumerations are defined:\n\n- civs (*string to\
+        \ number*)\n    - Civilizations used in AoEII Definitive Edition\n- maps (*string\
+        \ to number*)\n    - Maps used in AoEII Definitive Edition\n- elo (*string\
+        \ to string*)\n    - Breakdown of match ratings, they are always inclusive\
+        \ on the lower bound\n    and exclusive on the upper bound\n- ladder (*string\
+        \ to number*)\n    - Various ranked ladders (e.g. team vs 1v1)\n- patch (*string\
+        \ to string*)\n    - The patch on which something occurred or the stat was\
+        \ calculated\n- timeseries (*string to string*)\n    - These are the buckets\
+        \ used to calculate the timeseries graphs\n- series (*string to string*)\n\
+        \    - These are the various json blobs that are stored in the \"series\"\
+        \ property\n    on civilization stats and maps stats\n\nThese values should\
+        \ be used and referenced to properly infer data in the API."
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /de/defs{format}:
+    get:
+      operationId: Retrievedefs
+      description: "Returns definitions for each magic number and magic string throughout\
+        \ the API. The\nfollowing enumerations are defined:\n\n- civs (*string to\
+        \ number*)\n    - Civilizations used in AoEII Definitive Edition\n- maps (*string\
+        \ to number*)\n    - Maps used in AoEII Definitive Edition\n- elo (*string\
+        \ to string*)\n    - Breakdown of match ratings, they are always inclusive\
+        \ on the lower bound\n    and exclusive on the upper bound\n- ladder (*string\
+        \ to number*)\n    - Various ranked ladders (e.g. team vs 1v1)\n- patch (*string\
+        \ to string*)\n    - The patch on which something occurred or the stat was\
+        \ calculated\n- timeseries (*string to string*)\n    - These are the buckets\
+        \ used to calculate the timeseries graphs\n- series (*string to string*)\n\
+        \    - These are the various json blobs that are stored in the \"series\"\
+        \ property\n    on civilization stats and maps stats\n\nThese values should\
+        \ be used and referenced to properly infer data in the API."
+      parameters:
+      - name: format
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /de/civilizations/:
+    get:
+      operationId: listCivilizationStats
+      description: 'Retrieves all civilization stats. Stats can be filtered by:
+
+
+        - elo
+
+        - ladder
+
+        - patch
+
+        - civ
+
+
+        Each result contains **all** information relating to a particular civ and
+        its filter
+
+        (the combination of ladder, patch, civ, and elo). Stats include:
+
+
+        - win rate vs each other civ
+
+        - play rate vs each other civ
+
+        - win rate on each map
+
+        - play rate on each map
+
+        - win rate vs game length'
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: civ_num
+        required: false
+        in: query
+        description: civ_num
+        schema:
+          type: string
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+      - name: filter__elo_val
+        required: false
+        in: query
+        description: filter__elo_val
+        schema:
+          type: string
+          enum:
+          - <1000
+          - 1000-1250
+          - 1250-1650
+          - 1650+
+      - name: filter__combined
+        required: false
+        in: query
+        description: filter__combined
+        schema:
+          type: string
+      - name: filter__ladder_val
+        required: false
+        in: query
+        description: filter__ladder_val
+        schema:
+          type: string
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: filter__patch_val
+        required: false
+        in: query
+        description: filter__patch_val
+        schema:
+          type: string
+          enum:
+          - '37906'
+          - '37650'
+          - '36906'
+          - '36202'
+          - '35584'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        token:
+                          type: string
+                          nullable: true
+                          maxLength: 256
+                        filter:
+                          properties:
+                            elo_val:
+                              enum:
+                              - <1000
+                              - 1000-1250
+                              - 1250-1650
+                              - 1650+
+                              nullable: true
+                            ladder_val:
+                              enum:
+                              - 0
+                              - 1
+                              - 2
+                              - 3
+                              - 4
+                              nullable: true
+                              minimum: -2147483648
+                              maximum: 2147483647
+                            patch_val:
+                              enum:
+                              - '37906'
+                              - '37650'
+                              - '36906'
+                              - '36202'
+                              - '35584'
+                              nullable: true
+                            combined:
+                              type: boolean
+                          type: object
+                        civ_num:
+                          enum:
+                          - 0
+                          - 1
+                          - 2
+                          - 3
+                          - 4
+                          - 5
+                          - 6
+                          - 7
+                          - 8
+                          - 9
+                          - 10
+                          - 11
+                          - 12
+                          - 13
+                          - 14
+                          - 15
+                          - 16
+                          - 17
+                          - 18
+                          - 19
+                          - 20
+                          - 21
+                          - 22
+                          - 23
+                          - 24
+                          - 25
+                          - 26
+                          - 27
+                          - 28
+                          - 29
+                          - 30
+                          - 31
+                          - 32
+                          - 33
+                          - 34
+                          minimum: -2147483648
+                          maximum: 2147483647
+                        num_played:
+                          type: integer
+                          maximum: 2147483647
+                          minimum: -2147483648
+                        num_won:
+                          type: integer
+                          maximum: 2147483647
+                          minimum: -2147483648
+                        win_rate:
+                          type: number
+                        play_rate:
+                          type: number
+                        avg_game_length:
+                          type: string
+                        series:
+                          type: object
+                      required:
+                      - filter
+                      - civ_num
+          description: ''
+  /de/civilizations{format}:
+    get:
+      operationId: RetrieveCivilizationStats
+      description: 'Retrieves all civilization stats. Stats can be filtered by:
+
+
+        - elo
+
+        - ladder
+
+        - patch
+
+        - civ
+
+
+        Each result contains **all** information relating to a particular civ and
+        its filter
+
+        (the combination of ladder, patch, civ, and elo). Stats include:
+
+
+        - win rate vs each other civ
+
+        - play rate vs each other civ
+
+        - win rate on each map
+
+        - play rate on each map
+
+        - win rate vs game length'
+      parameters:
+      - name: format
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: civ_num
+        required: false
+        in: query
+        description: civ_num
+        schema:
+          type: string
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 30
+          - 31
+          - 32
+          - 33
+          - 34
+      - name: filter__elo_val
+        required: false
+        in: query
+        description: filter__elo_val
+        schema:
+          type: string
+          enum:
+          - <1000
+          - 1000-1250
+          - 1250-1650
+          - 1650+
+      - name: filter__combined
+        required: false
+        in: query
+        description: filter__combined
+        schema:
+          type: string
+      - name: filter__ladder_val
+        required: false
+        in: query
+        description: filter__ladder_val
+        schema:
+          type: string
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: filter__patch_val
+        required: false
+        in: query
+        description: filter__patch_val
+        schema:
+          type: string
+          enum:
+          - '37906'
+          - '37650'
+          - '36906'
+          - '36202'
+          - '35584'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  token:
+                    type: string
+                    nullable: true
+                    maxLength: 256
+                  filter:
+                    properties:
+                      elo_val:
+                        enum:
+                        - <1000
+                        - 1000-1250
+                        - 1250-1650
+                        - 1650+
+                        nullable: true
+                      ladder_val:
+                        enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        nullable: true
+                        minimum: -2147483648
+                        maximum: 2147483647
+                      patch_val:
+                        enum:
+                        - '37906'
+                        - '37650'
+                        - '36906'
+                        - '36202'
+                        - '35584'
+                        nullable: true
+                      combined:
+                        type: boolean
+                    type: object
+                  civ_num:
+                    enum:
+                    - 0
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    - 13
+                    - 14
+                    - 15
+                    - 16
+                    - 17
+                    - 18
+                    - 19
+                    - 20
+                    - 21
+                    - 22
+                    - 23
+                    - 24
+                    - 25
+                    - 26
+                    - 27
+                    - 28
+                    - 29
+                    - 30
+                    - 31
+                    - 32
+                    - 33
+                    - 34
+                    minimum: -2147483648
+                    maximum: 2147483647
+                  num_played:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  num_won:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  win_rate:
+                    type: number
+                  play_rate:
+                    type: number
+                  avg_game_length:
+                    type: string
+                  series:
+                    type: object
+                required:
+                - filter
+                - civ_num
+          description: ''
+  /de/civilizations/{token}:
+    get:
+      operationId: RetrieveCivilizationStats
+      description: Retrieves one civilization stat based on the object's unique token.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  token:
+                    type: string
+                    nullable: true
+                    maxLength: 256
+                  filter:
+                    properties:
+                      elo_val:
+                        enum:
+                        - <1000
+                        - 1000-1250
+                        - 1250-1650
+                        - 1650+
+                        nullable: true
+                      ladder_val:
+                        enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        nullable: true
+                        minimum: -2147483648
+                        maximum: 2147483647
+                      patch_val:
+                        enum:
+                        - '37906'
+                        - '37650'
+                        - '36906'
+                        - '36202'
+                        - '35584'
+                        nullable: true
+                      combined:
+                        type: boolean
+                    type: object
+                  civ_num:
+                    enum:
+                    - 0
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    - 13
+                    - 14
+                    - 15
+                    - 16
+                    - 17
+                    - 18
+                    - 19
+                    - 20
+                    - 21
+                    - 22
+                    - 23
+                    - 24
+                    - 25
+                    - 26
+                    - 27
+                    - 28
+                    - 29
+                    - 30
+                    - 31
+                    - 32
+                    - 33
+                    - 34
+                    minimum: -2147483648
+                    maximum: 2147483647
+                  num_played:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  num_won:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  win_rate:
+                    type: number
+                  play_rate:
+                    type: number
+                  avg_game_length:
+                    type: string
+                  series:
+                    type: object
+                required:
+                - filter
+                - civ_num
+          description: ''
+  /de/civilizations/{token}{format}:
+    get:
+      operationId: RetrieveCivilizationStats
+      description: Retrieves one civilization stat based on the object's unique token.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: format
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  token:
+                    type: string
+                    nullable: true
+                    maxLength: 256
+                  filter:
+                    properties:
+                      elo_val:
+                        enum:
+                        - <1000
+                        - 1000-1250
+                        - 1250-1650
+                        - 1650+
+                        nullable: true
+                      ladder_val:
+                        enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        nullable: true
+                        minimum: -2147483648
+                        maximum: 2147483647
+                      patch_val:
+                        enum:
+                        - '37906'
+                        - '37650'
+                        - '36906'
+                        - '36202'
+                        - '35584'
+                        nullable: true
+                      combined:
+                        type: boolean
+                    type: object
+                  civ_num:
+                    enum:
+                    - 0
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    - 13
+                    - 14
+                    - 15
+                    - 16
+                    - 17
+                    - 18
+                    - 19
+                    - 20
+                    - 21
+                    - 22
+                    - 23
+                    - 24
+                    - 25
+                    - 26
+                    - 27
+                    - 28
+                    - 29
+                    - 30
+                    - 31
+                    - 32
+                    - 33
+                    - 34
+                    minimum: -2147483648
+                    maximum: 2147483647
+                  num_played:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  num_won:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  win_rate:
+                    type: number
+                  play_rate:
+                    type: number
+                  avg_game_length:
+                    type: string
+                  series:
+                    type: object
+                required:
+                - filter
+                - civ_num
+          description: ''
+  /de/maps/:
+    get:
+      operationId: listMapStats
+      description: 'Retrieves all map stats. Stats can be filtered by:
+
+
+        - elo
+
+        - ladder
+
+        - patch
+
+        - map
+
+
+        Each result contains **all** information relating to the a particular map,
+        including
+
+        win rate and play rate for each civ on that map.'
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: map_num
+        required: false
+        in: query
+        description: map_num
+        schema:
+          type: string
+          enum:
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 31
+          - 32
+          - 33
+          - 49
+          - 50
+          - 51
+          - 52
+          - 53
+          - 54
+          - 55
+          - 56
+          - 57
+          - 58
+          - 59
+          - 60
+          - 62
+          - 63
+          - 65
+          - 66
+          - 67
+          - 68
+          - 69
+          - 70
+          - 71
+          - 72
+          - 73
+          - 74
+          - 75
+          - 76
+          - 77
+          - 78
+          - 79
+          - 80
+          - 81
+          - 82
+          - 83
+          - 84
+          - 85
+          - 86
+          - 87
+          - 88
+          - 89
+          - 90
+          - 91
+          - 92
+          - 93
+          - 94
+          - 95
+          - 96
+          - 97
+          - 98
+          - 99
+          - 100
+          - 101
+          - 102
+          - 103
+          - 104
+          - 105
+          - 106
+          - 107
+          - 108
+          - 109
+          - 110
+          - 111
+          - 112
+          - 113
+          - 114
+          - 115
+          - 116
+          - 117
+          - 118
+          - 119
+          - 120
+          - 121
+          - 122
+          - 123
+          - 124
+          - 125
+          - 126
+          - 132
+          - 137
+          - 139
+          - 140
+      - name: filter__elo_val
+        required: false
+        in: query
+        description: filter__elo_val
+        schema:
+          type: string
+          enum:
+          - <1000
+          - 1000-1250
+          - 1250-1650
+          - 1650+
+      - name: filter__combined
+        required: false
+        in: query
+        description: filter__combined
+        schema:
+          type: string
+      - name: filter__ladder_val
+        required: false
+        in: query
+        description: filter__ladder_val
+        schema:
+          type: string
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: filter__patch_val
+        required: false
+        in: query
+        description: filter__patch_val
+        schema:
+          type: string
+          enum:
+          - '37906'
+          - '37650'
+          - '36906'
+          - '36202'
+          - '35584'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        token:
+                          type: string
+                          nullable: true
+                          maxLength: 256
+                        filter:
+                          properties:
+                            elo_val:
+                              enum:
+                              - <1000
+                              - 1000-1250
+                              - 1250-1650
+                              - 1650+
+                              nullable: true
+                            ladder_val:
+                              enum:
+                              - 0
+                              - 1
+                              - 2
+                              - 3
+                              - 4
+                              nullable: true
+                              minimum: -2147483648
+                              maximum: 2147483647
+                            patch_val:
+                              enum:
+                              - '37906'
+                              - '37650'
+                              - '36906'
+                              - '36202'
+                              - '35584'
+                              nullable: true
+                            combined:
+                              type: boolean
+                          type: object
+                        map_num:
+                          enum:
+                          - 9
+                          - 10
+                          - 11
+                          - 12
+                          - 13
+                          - 14
+                          - 15
+                          - 16
+                          - 17
+                          - 18
+                          - 19
+                          - 20
+                          - 21
+                          - 22
+                          - 23
+                          - 24
+                          - 25
+                          - 26
+                          - 27
+                          - 28
+                          - 29
+                          - 31
+                          - 32
+                          - 33
+                          - 49
+                          - 50
+                          - 51
+                          - 52
+                          - 53
+                          - 54
+                          - 55
+                          - 56
+                          - 57
+                          - 58
+                          - 59
+                          - 60
+                          - 62
+                          - 63
+                          - 65
+                          - 66
+                          - 67
+                          - 68
+                          - 69
+                          - 70
+                          - 71
+                          - 72
+                          - 73
+                          - 74
+                          - 75
+                          - 76
+                          - 77
+                          - 78
+                          - 79
+                          - 80
+                          - 81
+                          - 82
+                          - 83
+                          - 84
+                          - 85
+                          - 86
+                          - 87
+                          - 88
+                          - 89
+                          - 90
+                          - 91
+                          - 92
+                          - 93
+                          - 94
+                          - 95
+                          - 96
+                          - 97
+                          - 98
+                          - 99
+                          - 100
+                          - 101
+                          - 102
+                          - 103
+                          - 104
+                          - 105
+                          - 106
+                          - 107
+                          - 108
+                          - 109
+                          - 110
+                          - 111
+                          - 112
+                          - 113
+                          - 114
+                          - 115
+                          - 116
+                          - 117
+                          - 118
+                          - 119
+                          - 120
+                          - 121
+                          - 122
+                          - 123
+                          - 124
+                          - 125
+                          - 126
+                          - 132
+                          - 137
+                          - 139
+                          - 140
+                          minimum: -2147483648
+                          maximum: 2147483647
+                        num_played:
+                          type: integer
+                          maximum: 2147483647
+                          minimum: -2147483648
+                        num_won:
+                          type: integer
+                          maximum: 2147483647
+                          minimum: -2147483648
+                        win_rate:
+                          type: number
+                        play_rate:
+                          type: number
+                        avg_game_length:
+                          type: string
+                        series:
+                          type: object
+                      required:
+                      - filter
+                      - map_num
+          description: ''
+  /de/maps{format}:
+    get:
+      operationId: RetrieveMapStats
+      description: 'Retrieves all map stats. Stats can be filtered by:
+
+
+        - elo
+
+        - ladder
+
+        - patch
+
+        - map
+
+
+        Each result contains **all** information relating to the a particular map,
+        including
+
+        win rate and play rate for each civ on that map.'
+      parameters:
+      - name: format
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: map_num
+        required: false
+        in: query
+        description: map_num
+        schema:
+          type: string
+          enum:
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+          - 27
+          - 28
+          - 29
+          - 31
+          - 32
+          - 33
+          - 49
+          - 50
+          - 51
+          - 52
+          - 53
+          - 54
+          - 55
+          - 56
+          - 57
+          - 58
+          - 59
+          - 60
+          - 62
+          - 63
+          - 65
+          - 66
+          - 67
+          - 68
+          - 69
+          - 70
+          - 71
+          - 72
+          - 73
+          - 74
+          - 75
+          - 76
+          - 77
+          - 78
+          - 79
+          - 80
+          - 81
+          - 82
+          - 83
+          - 84
+          - 85
+          - 86
+          - 87
+          - 88
+          - 89
+          - 90
+          - 91
+          - 92
+          - 93
+          - 94
+          - 95
+          - 96
+          - 97
+          - 98
+          - 99
+          - 100
+          - 101
+          - 102
+          - 103
+          - 104
+          - 105
+          - 106
+          - 107
+          - 108
+          - 109
+          - 110
+          - 111
+          - 112
+          - 113
+          - 114
+          - 115
+          - 116
+          - 117
+          - 118
+          - 119
+          - 120
+          - 121
+          - 122
+          - 123
+          - 124
+          - 125
+          - 126
+          - 132
+          - 137
+          - 139
+          - 140
+      - name: filter__elo_val
+        required: false
+        in: query
+        description: filter__elo_val
+        schema:
+          type: string
+          enum:
+          - <1000
+          - 1000-1250
+          - 1250-1650
+          - 1650+
+      - name: filter__combined
+        required: false
+        in: query
+        description: filter__combined
+        schema:
+          type: string
+      - name: filter__ladder_val
+        required: false
+        in: query
+        description: filter__ladder_val
+        schema:
+          type: string
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+      - name: filter__patch_val
+        required: false
+        in: query
+        description: filter__patch_val
+        schema:
+          type: string
+          enum:
+          - '37906'
+          - '37650'
+          - '36906'
+          - '36202'
+          - '35584'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  token:
+                    type: string
+                    nullable: true
+                    maxLength: 256
+                  filter:
+                    properties:
+                      elo_val:
+                        enum:
+                        - <1000
+                        - 1000-1250
+                        - 1250-1650
+                        - 1650+
+                        nullable: true
+                      ladder_val:
+                        enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        nullable: true
+                        minimum: -2147483648
+                        maximum: 2147483647
+                      patch_val:
+                        enum:
+                        - '37906'
+                        - '37650'
+                        - '36906'
+                        - '36202'
+                        - '35584'
+                        nullable: true
+                      combined:
+                        type: boolean
+                    type: object
+                  map_num:
+                    enum:
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    - 13
+                    - 14
+                    - 15
+                    - 16
+                    - 17
+                    - 18
+                    - 19
+                    - 20
+                    - 21
+                    - 22
+                    - 23
+                    - 24
+                    - 25
+                    - 26
+                    - 27
+                    - 28
+                    - 29
+                    - 31
+                    - 32
+                    - 33
+                    - 49
+                    - 50
+                    - 51
+                    - 52
+                    - 53
+                    - 54
+                    - 55
+                    - 56
+                    - 57
+                    - 58
+                    - 59
+                    - 60
+                    - 62
+                    - 63
+                    - 65
+                    - 66
+                    - 67
+                    - 68
+                    - 69
+                    - 70
+                    - 71
+                    - 72
+                    - 73
+                    - 74
+                    - 75
+                    - 76
+                    - 77
+                    - 78
+                    - 79
+                    - 80
+                    - 81
+                    - 82
+                    - 83
+                    - 84
+                    - 85
+                    - 86
+                    - 87
+                    - 88
+                    - 89
+                    - 90
+                    - 91
+                    - 92
+                    - 93
+                    - 94
+                    - 95
+                    - 96
+                    - 97
+                    - 98
+                    - 99
+                    - 100
+                    - 101
+                    - 102
+                    - 103
+                    - 104
+                    - 105
+                    - 106
+                    - 107
+                    - 108
+                    - 109
+                    - 110
+                    - 111
+                    - 112
+                    - 113
+                    - 114
+                    - 115
+                    - 116
+                    - 117
+                    - 118
+                    - 119
+                    - 120
+                    - 121
+                    - 122
+                    - 123
+                    - 124
+                    - 125
+                    - 126
+                    - 132
+                    - 137
+                    - 139
+                    - 140
+                    minimum: -2147483648
+                    maximum: 2147483647
+                  num_played:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  num_won:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  win_rate:
+                    type: number
+                  play_rate:
+                    type: number
+                  avg_game_length:
+                    type: string
+                  series:
+                    type: object
+                required:
+                - filter
+                - map_num
+          description: ''
+  /de/maps/{token}:
+    get:
+      operationId: RetrieveMapStats
+      description: Retrieve the stats for a particular map based on the object's unique
+        token.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  token:
+                    type: string
+                    nullable: true
+                    maxLength: 256
+                  filter:
+                    properties:
+                      elo_val:
+                        enum:
+                        - <1000
+                        - 1000-1250
+                        - 1250-1650
+                        - 1650+
+                        nullable: true
+                      ladder_val:
+                        enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        nullable: true
+                        minimum: -2147483648
+                        maximum: 2147483647
+                      patch_val:
+                        enum:
+                        - '37906'
+                        - '37650'
+                        - '36906'
+                        - '36202'
+                        - '35584'
+                        nullable: true
+                      combined:
+                        type: boolean
+                    type: object
+                  map_num:
+                    enum:
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    - 13
+                    - 14
+                    - 15
+                    - 16
+                    - 17
+                    - 18
+                    - 19
+                    - 20
+                    - 21
+                    - 22
+                    - 23
+                    - 24
+                    - 25
+                    - 26
+                    - 27
+                    - 28
+                    - 29
+                    - 31
+                    - 32
+                    - 33
+                    - 49
+                    - 50
+                    - 51
+                    - 52
+                    - 53
+                    - 54
+                    - 55
+                    - 56
+                    - 57
+                    - 58
+                    - 59
+                    - 60
+                    - 62
+                    - 63
+                    - 65
+                    - 66
+                    - 67
+                    - 68
+                    - 69
+                    - 70
+                    - 71
+                    - 72
+                    - 73
+                    - 74
+                    - 75
+                    - 76
+                    - 77
+                    - 78
+                    - 79
+                    - 80
+                    - 81
+                    - 82
+                    - 83
+                    - 84
+                    - 85
+                    - 86
+                    - 87
+                    - 88
+                    - 89
+                    - 90
+                    - 91
+                    - 92
+                    - 93
+                    - 94
+                    - 95
+                    - 96
+                    - 97
+                    - 98
+                    - 99
+                    - 100
+                    - 101
+                    - 102
+                    - 103
+                    - 104
+                    - 105
+                    - 106
+                    - 107
+                    - 108
+                    - 109
+                    - 110
+                    - 111
+                    - 112
+                    - 113
+                    - 114
+                    - 115
+                    - 116
+                    - 117
+                    - 118
+                    - 119
+                    - 120
+                    - 121
+                    - 122
+                    - 123
+                    - 124
+                    - 125
+                    - 126
+                    - 132
+                    - 137
+                    - 139
+                    - 140
+                    minimum: -2147483648
+                    maximum: 2147483647
+                  num_played:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  num_won:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  win_rate:
+                    type: number
+                  play_rate:
+                    type: number
+                  avg_game_length:
+                    type: string
+                  series:
+                    type: object
+                required:
+                - filter
+                - map_num
+          description: ''
+  /de/maps/{token}{format}:
+    get:
+      operationId: RetrieveMapStats
+      description: Retrieve the stats for a particular map based on the object's unique
+        token.
+      parameters:
+      - name: token
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: format
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  token:
+                    type: string
+                    nullable: true
+                    maxLength: 256
+                  filter:
+                    properties:
+                      elo_val:
+                        enum:
+                        - <1000
+                        - 1000-1250
+                        - 1250-1650
+                        - 1650+
+                        nullable: true
+                      ladder_val:
+                        enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        nullable: true
+                        minimum: -2147483648
+                        maximum: 2147483647
+                      patch_val:
+                        enum:
+                        - '37906'
+                        - '37650'
+                        - '36906'
+                        - '36202'
+                        - '35584'
+                        nullable: true
+                      combined:
+                        type: boolean
+                    type: object
+                  map_num:
+                    enum:
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    - 13
+                    - 14
+                    - 15
+                    - 16
+                    - 17
+                    - 18
+                    - 19
+                    - 20
+                    - 21
+                    - 22
+                    - 23
+                    - 24
+                    - 25
+                    - 26
+                    - 27
+                    - 28
+                    - 29
+                    - 31
+                    - 32
+                    - 33
+                    - 49
+                    - 50
+                    - 51
+                    - 52
+                    - 53
+                    - 54
+                    - 55
+                    - 56
+                    - 57
+                    - 58
+                    - 59
+                    - 60
+                    - 62
+                    - 63
+                    - 65
+                    - 66
+                    - 67
+                    - 68
+                    - 69
+                    - 70
+                    - 71
+                    - 72
+                    - 73
+                    - 74
+                    - 75
+                    - 76
+                    - 77
+                    - 78
+                    - 79
+                    - 80
+                    - 81
+                    - 82
+                    - 83
+                    - 84
+                    - 85
+                    - 86
+                    - 87
+                    - 88
+                    - 89
+                    - 90
+                    - 91
+                    - 92
+                    - 93
+                    - 94
+                    - 95
+                    - 96
+                    - 97
+                    - 98
+                    - 99
+                    - 100
+                    - 101
+                    - 102
+                    - 103
+                    - 104
+                    - 105
+                    - 106
+                    - 107
+                    - 108
+                    - 109
+                    - 110
+                    - 111
+                    - 112
+                    - 113
+                    - 114
+                    - 115
+                    - 116
+                    - 117
+                    - 118
+                    - 119
+                    - 120
+                    - 121
+                    - 122
+                    - 123
+                    - 124
+                    - 125
+                    - 126
+                    - 132
+                    - 137
+                    - 139
+                    - 140
+                    minimum: -2147483648
+                    maximum: 2147483647
+                  num_played:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  num_won:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  win_rate:
+                    type: number
+                  play_rate:
+                    type: number
+                  avg_game_length:
+                    type: string
+                  series:
+                    type: object
+                required:
+                - filter
+                - map_num
+          description: ''

@@ -1,0 +1,43 @@
+{
+  "Package-Info": {
+    "Version": "0.1.0",
+    "Creator": "simonsan",
+    "Contact": "eMail",
+    "License": "GPLv3"
+  },
+  "Data": {
+    "Sources": [
+      {
+        "aoe2net": {
+          "interval": "async",
+          "alias-mapping": true
+        }
+      },
+      {
+        "aoestats": {
+          "interval": "1d"
+        }
+      }
+    ],
+    "Mapping": [
+      {
+        
+      }
+    ]
+  },
+  "Effects": {
+      
+  },
+  "Package-Content": [
+    "overlay.1.svg",
+    "overlay.2.svg"
+  ],
+  "Card-Description": [
+    {
+      "filename": "overlay.1.svg"
+    },
+    {
+      "filename": "overlay.2.svg"
+    }
+  ]
+}
