@@ -1,0 +1,2 @@
+setuptools >= 21.0.0
+simplejson >= 3.17.0
