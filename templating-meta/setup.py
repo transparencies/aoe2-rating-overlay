@@ -28,7 +28,7 @@ setup(
     url="TODO",
     keywords=["TODO"],
     install_requires=REQUIRES,
-    packages=find_packages(exclude=["test", "tests"]),
+    packages=find_packages(exclude=["test", "tests", "test-assets"]),
     include_package_data=True,
     license="AGPLv3",
     long_description="""\
