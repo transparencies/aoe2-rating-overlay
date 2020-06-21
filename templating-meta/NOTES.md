@@ -12,6 +12,7 @@
  - config file
    - validate config against format specifications (yaml, json)
    - check if all exported IDs (not tspan, etc.) are defined in config file
+     - parse `csv` (ID file)
      - output warnings for non-referenced IDs that exist in svg but not in config file
 
 DESIGN DECISION: How do we deal with the archive? Do we create another folder in it and store all the information inside there? Like configured templates all the other language specific-files? That would have the advantage, that the package is easily downloadable in this state, we can store error logs inside etc. So if people want to continue working on that overlay archive, they could just download the zip-file and start editing data. How should the process look like of an already configured archive when reuploading? Just delete the configured files and reconfigure or create diff and version it inside the archive?
