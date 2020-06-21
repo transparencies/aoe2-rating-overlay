@@ -3,7 +3,7 @@
     -_-> 3 "access" "import" "from"
   end
   
-  class_stereotypes  22 "actor" "auxiliary" "boundary" "control" "entity" "enum" "enum_class" "enum_pattern" "exception" "focus" "implementationClass" "interface" "@interface" "metaclass" "stereotype" "struct" "table" "type" "typedef" "template_typedef" "union" "utility"
+  class_stereotypes  23 "actor" "auxiliary" "boundary" "control" "entity" "enum" "enum_class" "enum_pattern" "exception" "focus" "implementationClass" "interface" "@interface" "metaclass" "stereotype" "struct" "table" "type" "typedef" "template_typedef" "union" "utility" "trait"
     ---- 4 "list" "set" "vector" "map"
     ---> 4 "list" "set" "vector" "map"
     ---|> 4 "{complete,disjoint}" "{incomplete,disjoint}" "{complete,overlapping}" "{incomplete,overlapping}"
