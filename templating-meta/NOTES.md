@@ -22,7 +22,7 @@ DESIGN DECISION: How do we deal with the archive? Do we create another folder in
 ## Mapping of config file values
  - the config file was parsed in the validation stage
  - first thing to do, would be to create a directory structure (e.g. in the OverlayArchive) to store the configured output files in
-   - directory layout should be easy to use for versioning files `bin/<version>/<directories-layout>/<configured-language>/<configured-files>`
+   - directory layout should be easy to use for versioning files `bin/<version>/<configured-language>/<directories-layout>/<configured-files>`
      - `version` comes from the config file's version information
      - `language` is an internal property to split the configured files for different platforms
  - we can start to map the values to their corresponding classes (TODO: DESIGN) and implement the corresponding methods
