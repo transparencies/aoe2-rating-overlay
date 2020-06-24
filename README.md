@@ -1,5 +1,5 @@
 # <TODO name of>
-**a foundation for building dynamic streaming overlays**
+**a foundation for building dynamic stream overlays**
 
 "<TODO name of>" delivers a platform to easily create and (self-)host dynamic streaming overlays and use them for example as websources in OBS.
 

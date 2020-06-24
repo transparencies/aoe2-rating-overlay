@@ -1,0 +1,18 @@
+format 222
+
+classcanvas 128013 class_ref 128141 // ContentCreator
+  simpleclassdiagramsettings end
+  xyz 42.2 136.7 2000
+end
+subject 128141 "Meta-Templating Engine"
+  xyzwh 197.8 63.6 2000 281 308
+usecasecanvas 128525 usecase_ref 128141 // Generate Template
+  xyzwh 216 112 3005 187 61 label_xy 261 114
+end
+packagecanvas 129165 
+  package_ref 128269 // API Handler
+    xyzwh 577 213 2000 66 65
+end
+line 128653 ---- decenter_end 537
+  from ref 128013 z 3006 to ref 128525
+end

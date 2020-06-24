@@ -7,3 +7,4 @@ out/*
 /templating-meta/venv/
 /templating-meta/.idea/
 /templating-meta/meta-templating-engine/__pycache__/
+/client/
