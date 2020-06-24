@@ -51,7 +51,7 @@ format 222
     
     activitydiagramsettings
      end
-    usecasediagram 128141 "Generate Template"
+    usecasediagram 128141 "Meta-Templating"
       usecasediagramsettings end
       size A4
     end
@@ -71,7 +71,7 @@ ${docstring}${members}
     end
 
     usecase 128141 "Generate Template"
-      extension_points "API description"
+      extension_points "API_description"
       
       usecasediagramsettings end
       
@@ -94,5 +94,238 @@ ${docstring}${members}
        end
     end
 
+    class 128269 "ApiHandler"
+      visibility package stereotype "actor"
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    usecase 134669 "Generate Service-File"
+      
+      usecasediagramsettings end
+      
+      sequencediagramsettings end
+      
+      collaborationdiagramsettings end
+      
+      classdiagramsettings member_max_width 0 end
+      
+      classcompositediagramsettings end
+      
+      objectdiagramsettings end
+      
+      objectcompositediagramsettings end
+      
+      statediagramsettings
+       end
+      
+      activitydiagramsettings
+       end
+      simplerelation 128013
+	-_->
+	  stereotype "extend"
+	  on usecase_ref 128141 // Generate Template
+      end
+    end
+
+    classdiagram 134797 "parser"
+      classdiagramsettings draw_all_relations no member_max_width 0 end
+      size A4
+    end
+
+    class 135181 "CollectionArchive"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 135309 "FilesystemLayoutArchive"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 128013 // <generalisation>
+	relation 128013 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 128013 // <generalisation>
+	  b parent class_ref 135565 // FilesystemLayout
+      end
+    end
+
+    class 135437 "Logfile"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 130189 // <aggregation>
+	relation 129293 o---
+	  a role_name "" multiplicity "*" private
+	    python "${comment}${self}${name} = ${stereotype}()
+"
+	    classrelation_ref 130189 // <aggregation>
+	  b role_name "" multiplicity "1" private
+	    python "${comment}${self}${name} = ${value}
+"
+	    classrelation_ref 130317 // <aggregation>
+      end
+    end
+
+    class 135565 "FilesystemLayout"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 135693 "ParserError"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 129165 // <generalisation>
+	relation 128653 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 129165 // <generalisation>
+	  b parent class_ref 136333 // LogEntry
+      end
+    end
+
+    class 135821 "ParserWarning"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 129293 // <generalisation>
+	relation 128781 ---|>
+	  a public
+	    python "${type}"
+	    classrelation_ref 129293 // <generalisation>
+	  b parent class_ref 136333 // LogEntry
+      end
+    end
+
+    class 135949 "ConfigParser"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 136077 "OverlayTemplate"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 129037 // <aggregation>
+	relation_ref 128525 // <aggregation>
+      end
+    end
+
+    class 136205 "OverlayCollection"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 128909 // <aggregation>
+	relation 128525 o---
+	  a role_name "" multiplicity "1..*" private
+	    python "${comment}${self}${name} = ${stereotype}()
+"
+	    classrelation_ref 128909 // <aggregation>
+	  b role_name "" multiplicity "1" private
+	    python "${comment}${self}${name} = ${value}
+"
+	    classrelation_ref 129037 // <aggregation>
+      end
+    end
+
+    class 136333 "LogEntry"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 130317 // <aggregation>
+	relation_ref 129293 // <aggregation>
+      end
+    end
   end
 end

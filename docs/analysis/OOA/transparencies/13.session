@@ -1,12 +1,18 @@
-window_sizes 3000 1875 450 2540 1692 104
-
+window_sizes 1920 1017 324 1590 861 104
+cleanlooks_style
 diagrams
-  active  usecasediagram_ref 128141 // uc1
-    2531 1684 150 A4 0 0
+  active  classdiagram_ref 134797 // parser
+    1308 688 100 A4 0 0
 end
 show_stereotypes
-selected usecasediagram_ref 128141 // uc1
+selected classrelation_ref 130189 // <aggregation>
 open
-  usecaseview_ref 128141 // use cases
+  simplerelation_ref 128013
+  class_ref 135309 // FilesystemLayoutArchive
+  class_ref 135437 // Logfile
+  class_ref 135821 // ParserWarning
+  usecaseview_ref 134669 // use cases
+  
+  package_ref 134925 // User-Interface
 end
 end

@@ -1,0 +1,69 @@
+format 222
+
+classcanvas 128013 class_ref 135181 // CollectionArchive
+  classdiagramsettings member_max_width 0 end
+  xyz 28 56 2000
+end
+classcanvas 128141 class_ref 135309 // FilesystemLayoutArchive
+  classdiagramsettings member_max_width 0 end
+  xyz 193 146 2000
+end
+classcanvas 128269 class_ref 135437 // Logfile
+  classdiagramsettings member_max_width 0 end
+  xyz 445 53 2000
+end
+classcanvas 128397 class_ref 135565 // FilesystemLayout
+  classdiagramsettings member_max_width 0 end
+  xyz 214 54 2000
+end
+classcanvas 129037 class_ref 135949 // ConfigParser
+  classdiagramsettings member_max_width 0 end
+  xyz 41 215 2000
+end
+classcanvas 129165 class_ref 136077 // OverlayTemplate
+  classdiagramsettings member_max_width 0 end
+  xyz 586 164 2000
+end
+classcanvas 129293 class_ref 136205 // OverlayCollection
+  classdiagramsettings member_max_width 0 end
+  xyz 586 50 2000
+end
+classcanvas 130189 class_ref 136333 // LogEntry
+  classdiagramsettings member_max_width 0 end
+  xyz 439 159 2000
+end
+classcanvas 130317 class_ref 135693 // ParserError
+  classdiagramsettings member_max_width 0 end
+  xyz 321 338 2000
+end
+classcanvas 130445 class_ref 135821 // ParserWarning
+  classdiagramsettings member_max_width 0 end
+  xyz 429 338 2000
+end
+relationcanvas 128909 relation_ref 128013 // <generalisation>
+  from ref 128141 z 2001 to ref 128397
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130061 relation_ref 128525 // <aggregation>
+  from ref 129293 z 2001 to ref 129165
+  no_role_a no_role_b
+  multiplicity_a_pos 611 146 3000 multiplicity_b_pos 625 92 3000
+end
+relationcanvas 130573 relation_ref 128653 // <generalisation>
+  from ref 130317 z 2001 to ref 130189
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131213 relation_ref 129293 // <aggregation>
+  decenter_end 476
+  from ref 128269 z 2001 to ref 130189
+  no_role_a no_role_b
+  multiplicity_a_pos 452 141 3000 multiplicity_b_pos 453 95 3000
+end
+relationcanvas 131341 relation_ref 128781 // <generalisation>
+  from ref 130445 z 2001 to ref 130189
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

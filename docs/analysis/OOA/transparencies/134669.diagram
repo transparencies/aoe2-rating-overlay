@@ -1,0 +1,29 @@
+format 222
+
+subject 128013 "API-Handler"
+  xyzwh 221.519 114.922 2000 324 375
+classcanvas 128525 class_ref 134925 // MetaTemplatingEngine
+  simpleclassdiagramsettings end
+  xyz 65.6 205.5 2000
+end
+usecasecanvas 128781 usecase_ref 134669 // Generate Service-File
+  xyzwh 288 318 3005 173 75 label_xy 322 346
+end
+classcanvas 129293 class_ref 128141 // ContentCreator
+  simpleclassdiagramsettings end
+  xyz 75 383 2005
+end
+usecasecanvas 129549 usecase_ref 134797 // Return Request
+  xyzwh 307 180 3005 139 65 label_xy 337 203
+end
+packagecanvas 130061 
+  package_ref 128141 // MT engine
+    xyzwh 36 150 2005 167 133
+end
+line 129165 ----
+  from ref 128781 z 3006 to ref 128525
+line 129421 ----
+  from ref 129293 z 3006 to ref 128781
+line 129677 ----
+  from ref 128525 z 3006 to ref 129549
+end
