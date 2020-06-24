@@ -4,3 +4,6 @@ out/*
 # IDE
 *.iml
 /.idea/
+/templating-meta/venv/
+/templating-meta/.idea/
+/templating-meta/meta-templating-engine/__pycache__/
