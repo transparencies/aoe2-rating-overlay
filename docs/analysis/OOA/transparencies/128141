@@ -1,6 +1,6 @@
 format 222
 "MT engine" // MT engine
-  revision 2
+  revision 3
   modified_by 13 "Jameson"
   // class settings
   
@@ -165,16 +165,9 @@ ${docstring}${members}
       explicit_switch_type ""
       mysql_decl ""
       
-      classrelation 128013 // <generalisation>
-	relation 128013 ---|>
-	  a public
-	    python "${type}"
-	    classrelation_ref 128013 // <generalisation>
-	  b parent class_ref 135565 // FilesystemLayout
-      end
     end
 
-    class 135437 "Logfile"
+    class 135437 "Logging"
       visibility package 
       cpp_decl ""
       java_decl ""
@@ -326,6 +319,34 @@ ${docstring}${members}
       classrelation 130317 // <aggregation>
 	relation_ref 129293 // <aggregation>
       end
+    end
+
+    class 142861 "ResourceManager"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 142989 "Translation"
+      abstract visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl "class ${name}${inherit}:
+${docstring}${members}
+"
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
     end
   end
 end
