@@ -70,7 +70,7 @@ window.onload = function() {
 			.then((res) => {
 				res.json().then((matchinfo) => {
 					console.log(matchinfo);
-					if (matchinfo.match && matchinfo.match.match_id && (matchinfo.match.match_id > 0) && (database.match.match_id != matchinfo.match.match_id)) {
+					if (matchinfo.match && matchinfo.match.match_id) {
 						// check if match is 1v1, if not ignore it
 						if (matchinfo.match.num_players == 2) {
 							thisRactive.set("database.match", matchinfo.match);

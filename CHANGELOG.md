@@ -15,6 +15,8 @@ Overlay:
 - display unranked and deranked players
 - layout fixes
 
+Backend:
+- return the player with the requested id first, so the streamer is always on the left side
 
 ## [1.0.0] - 2020-06-03
 ### Added

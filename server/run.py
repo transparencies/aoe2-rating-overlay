@@ -63,10 +63,24 @@ async def matchinfo(request):
 
     data['match'] = data['match']['last_match']
 
+    # return the requested id first
+    if profile_id is not None:
+        data['match']['players'] = list(filter(lambda x: str(x['profile_id']) == profile_id, data['match']['players'])) + \
+                                   list(filter(lambda x: str(x['profile_id']) != profile_id, data['match']['players']))
+    else:
+        data['match']['players'] = list(filter(lambda x: str(x['steam_id']) == steam_id, data['match']['players'])) + \
+                                   list(filter(lambda x: str(x['steam_id']) != steam_id, data['match']['players']))
+
+    # include AI in player count
+    data['match']['num_players'] = len([p for p in data['match']['players'] if 'profile_id' in p])
+
     # if the lobby is an unranked custom lobby, return 1v1 leaderboard info instead
     leaderboard_id = data['match']['leaderboard_id']
     if leaderboard_id == 0:
-        leaderboard_id = 3
+        if data['match']['game_type'] == 2:
+            leaderboard_id = 1
+        else:
+            leaderboard_id = 3
 
     data['players'] = await asyncio.gather(*[fetch('https://aoe2.net/api/leaderboard',
                                                    params={'game': 'aoe2de',
@@ -84,7 +98,8 @@ async def matchinfo(request):
                                                    'leaderboard_id': leaderboard_id,
                                                    'count': 1},
                                            session=request.app['CLIENT_SESSION'])
-                                     if data['players'][p_idx] is None else asyncio.sleep(0)
+                                     if p['profile_id'] is not None is not None and
+                                        data['players'][p_idx] is None else asyncio.sleep(0)
                                      for p_idx, p in enumerate(data['match']['players'])])
 
     # map fieldnames
@@ -163,6 +178,9 @@ cors = aiohttp_cors.setup(app, defaults={
     "https://twitch.polskafan.de": aiohttp_cors.ResourceOptions(allow_credentials=True,
                                                                 expose_headers="*",
                                                                 allow_headers="*"),
+    "https://overlays.polskafan.de": aiohttp_cors.ResourceOptions(allow_credentials=True,
+                                                                  expose_headers="*",
+                                                                  allow_headers="*"),
 })
 
 # Configure CORS on all routes.
