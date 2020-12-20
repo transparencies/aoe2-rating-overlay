@@ -27,14 +27,16 @@ async def get_reference_players(session):
                        session=session,
                        text=True)
     players = yaml.load(data, Loader=yaml.SafeLoader)
-    aliases = dict()
+    overwrite = dict()
     for player in players:
         if 'platforms' in player and player['platforms'] is not None and 'de' in player['platforms']:
             for profile_id in player['platforms']['de']:
                 if profile_id.isnumeric():
-                    aliases[int(profile_id)] = player['name']
+                    overwrite[int(profile_id)] = player['name']
+        if 'country' in player['country'] is not None:
+            overwrite['country'] = player['country']
 
-    return aliases
+    return overwrite
 
 
 async def root(request):
@@ -112,7 +114,8 @@ async def matchinfo(request):
                 "losses": p[0]['num_losses'],
                 "streak": p[0]['streak'],
                 "drops": p[0]['drops'],
-                "timestamp": p[0]['timestamp']
+                "timestamp": p[0]['timestamp'],
+                "country": p[0]['country'],
             }
 
     for player in data['match']['players']:
@@ -120,6 +123,9 @@ async def matchinfo(request):
             # get alias name
             if player['profile_id'] in request.app['REFERENCE_PLAYERS']:
                 player['name'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]
+                # replace country flag
+                player['country'] = request.app['REFERENCE_PLAYERS'][player['country']]
+
 
     return web.json_response(data=data)
 
