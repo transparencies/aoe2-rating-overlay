@@ -43,9 +43,9 @@ tpl_text('tspan', 'playername_p1', '{{f.name(database.match.players.0.name)}}')
 tpl_text('tspan', 'playername_p2', '{{f.name(database.match.players.1.name)}}')
 
 # player flags
-tpl_set('image', 'country_flag_p1', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.players.0.country)}}")
+tpl_set('image', 'country_flag_p1', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.players.0)}}")
 tpl_set('image', 'country_flag_p1', 'clip-path', 'url(#circleClip)')
-tpl_set('image', 'country_flag_p2', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.players.1.country)}}")
+tpl_set('image', 'country_flag_p2', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.players.1)}}")
 tpl_set('image', 'country_flag_p2', 'clip-path', 'url(#circleClip)')
 
 # ratings p1

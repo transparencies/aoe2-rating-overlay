@@ -21,22 +21,26 @@ async def fetch(url, params, session, text=False):
             return None
 
 
-async def get_reference_players(session):
-    data = await fetch('https://raw.githubusercontent.com/SiegeEngineers/aoc-reference-data/master/data/players.yaml',
-                       params={},
-                       session=session,
-                       text=True)
-    players = yaml.load(data, Loader=yaml.SafeLoader)
-    overwrite = dict()
-    for player in players:
-        if 'platforms' in player and player['platforms'] is not None and 'de' in player['platforms']:
-            for profile_id in player['platforms']['de']:
-                if profile_id.isnumeric():
-                    overwrite[int(profile_id)] = player['name']
-        if 'country' in player['country'] is not None:
-            overwrite['country'] = player['country']
+async def update_reference_players(app_ctx):
+    while True:
+        data = await fetch('https://raw.githubusercontent.com/SiegeEngineers/aoc-reference-data/master/data/players.yaml',
+                           params={},
+                           session=app_ctx['CLIENT_SESSION'],
+                           text=True)
+        players = yaml.load(data, Loader=yaml.SafeLoader)
 
-    return overwrite
+        reference_players_by_profile_id = dict()
+        for player in players:
+            if 'platforms' in player and player['platforms'] is not None and 'de' in player['platforms']:
+                for profile_id in player['platforms']['de']:
+                    if profile_id.isnumeric():
+                        reference_players_by_profile_id[int(profile_id)] = player
+
+        if len(reference_players_by_profile_id) > 0:
+            app_ctx['REFERENCE_PLAYERS'] = reference_players_by_profile_id
+
+        await asyncio.sleep(3600)
+
 
 
 async def root(request):
@@ -122,10 +126,14 @@ async def matchinfo(request):
         if player is not None:
             # get alias name
             if player['profile_id'] in request.app['REFERENCE_PLAYERS']:
-                player['name'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]
-                # replace country flag
-                player['country'] = request.app['REFERENCE_PLAYERS'][player['country']]
+                # overwrite player name and country from reference player database
+                player['name'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]['name']
+                if 'country' in request.app['REFERENCE_PLAYERS'][player['profile_id']] and \
+                        request.app['REFERENCE_PLAYERS'][player['profile_id']]['country'] is not None:
+                    player['country'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]['country']
 
+                # store reference object for front end replacements
+                player['reference'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]
 
     return web.json_response(data=data)
 
@@ -196,7 +204,8 @@ for route in list(app.router.routes()):
 
 async def persistent_session(app):
     app['CLIENT_SESSION'] = session = aiohttp.ClientSession()
-    app['REFERENCE_PLAYERS'] = await get_reference_players(session=session)
+    app['REFERENCE_PLAYERS'] = dict()
+    app['ALIAS_TASK'] = asyncio.ensure_future(update_reference_players(app))
     app['WEBSOCKETS'] = WeakSet()
     app['CHANNELS'] = defaultdict(WeakSet)
     yield
