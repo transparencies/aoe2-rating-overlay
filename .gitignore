@@ -4,3 +4,4 @@ out/*
 # IDE
 *.iml
 /.idea/
+.vscode/
