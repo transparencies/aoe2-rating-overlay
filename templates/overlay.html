@@ -64,7 +64,7 @@ window.onload = function() {
 		var params = (database.profileId && database.profileId > 0) ? {profile_id: database.profileId} : {steam_id: database.steamId};
 		var fetchOpts = {headers: {Origin: 'https://share.polskafan.de'}};
 		
-		suchFetch('https://twitch.polskafan.de/aoe2obs/matchinfo', 
+		suchFetch('http://localhost:9090/matchinfo',
 			fetchOpts=fetchOpts,
 			params=params)
 			.then((res) => {
@@ -124,42 +124,7 @@ window.onload = function() {
 		target: "#app",
 		template: "#template",
 		data: {
-			database: {
-				players: [
-					{
-						wins: 70,
-						losses: 30,
-						rank: 1,
-						rating: 2400,
-						country: 'NO'
-					},
-					{
-						wins: 71,
-						losses: 29,
-						rank: 2,
-						rating: 2300,
-						country: 'ES'
-					},
-				],
-				match: {
-					num_players: 2,
-					leaderboard_id: 3,
-					players: [
-						{
-							name: 'TheViper',
-							civ: 3,
-							color: 4,
-							profile_id: 196240
-						},
-						{
-							name: 'TaToH',
-							civ: 5,
-							color: 1,
-							profile_id: 197388
-						},
-					]
-				},
-			},
+			database: { },
 			f: {
 			    showRating: function(p) {
 			        if (p) {
@@ -174,13 +139,25 @@ window.onload = function() {
                         return "unranked";
                     }
                 },
+                wins: function(p) {
+                    return (p.rating.historic) ? p.rating.num_wins : p.rating.wins;
+                },
+                losses: function(p) {
+                    return (p.rating.historic) ? p.rating.num_losses : p.rating.losses;
+                },
 				winrate: function(p) {
-					return (100*p.wins/(p.wins+p.losses)).toFixed(0);
+			        if (p.rating.historic) {
+                        return (100*p.rating.num_wins/(p.rating.num_wins+p.rating.num_losses)).toFixed(0);
+                    } else {
+                        return (100*p.rating.wins/(p.rating.wins+p.rating.losses)).toFixed(0);
+                    }
 				},
 				color: function(c) {
 					return colors[c];
 				},
-				name: function(n) {
+				name: function(p) {
+			        // return reference data, if a reference player was found
+			        var n = (p.reference) ? p.reference.name : p.name;
 				    return n.length > 20 ? n.substr(0, 20)+"⋯" : n;
 				},
 				civImage: function(p, orientation) {
@@ -188,8 +165,15 @@ window.onload = function() {
 					return "img/civs/"+orientation+"/"+civname+"-DE.png";
 				},
 				flagImage: function(p) {
-					var country = p.country.toLowerCase();
-					return "https://raw.githubusercontent.com/lipis/flag-icon-css/master/flags/1x1/"+country+".svg";
+			        if (p.reference && p.reference.country !== undefined) {
+                        var country = p.reference.country.toLowerCase();
+                        return "https://raw.githubusercontent.com/lipis/flag-icon-css/master/flags/1x1/" + country + ".svg";
+                    } else if (p.rating && p.rating.country !== undefined) {
+                        var country = p.rating.country.toLowerCase();
+                        return "https://raw.githubusercontent.com/lipis/flag-icon-css/master/flags/1x1/" + country + ".svg";
+                    } else {
+			            return "";
+                    }
 				},
 				gameType2: function(m) {
 					if (m.num_players == 2) {
@@ -206,9 +190,9 @@ window.onload = function() {
 					return "";
 				},
                 rank: function(p) {
-				    if(p.rank > 0 && p.rank < 999) {
-				        return "#"+p.rank+" |";
-                    } else if (p.historic) {
+				    if(p.rating.rank > 0 && p.rating.rank < 999) {
+				        return "#"+p.rating.rank+" |";
+                    } else if (p.rating.historic) {
                        return "DR |";
                     } else {
 				        return "R↑ |";

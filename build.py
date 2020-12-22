@@ -39,34 +39,34 @@ def tpl_set(t, k, a, v):
 
 
 # player names
-tpl_text('tspan', 'playername_p1', '{{f.name(database.match.players.0.name)}}')
-tpl_text('tspan', 'playername_p2', '{{f.name(database.match.players.1.name)}}')
+tpl_text('tspan', 'playername_p1', '{{f.name(database.match.players.0)}}')
+tpl_text('tspan', 'playername_p2', '{{f.name(database.match.players.1)}}')
 
 # player flags
-tpl_set('image', 'country_flag_p1', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.players.0)}}")
+tpl_set('image', 'country_flag_p1', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.match.players.0)}}")
 tpl_set('image', 'country_flag_p1', 'clip-path', 'url(#circleClip)')
-tpl_set('image', 'country_flag_p2', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.players.1)}}")
+tpl_set('image', 'country_flag_p2', '{http://www.w3.org/1999/xlink}href', "{{f.flagImage(database.match.players.1)}}")
 tpl_set('image', 'country_flag_p2', 'clip-path', 'url(#circleClip)')
 
 # ratings p1
-tpl_set('g', 'player_1_rating', 'style', '{{f.showRating(database.players.0)}}')
-tpl_text('tspan', 'player_1_unranked', '{{f.unranked(database.players.0)}}')
+tpl_set('g', 'player_1_rating', 'style', '{{f.showRating(database.match.players.0)}}')
+tpl_text('tspan', 'player_1_unranked', '{{f.unranked(database.match.players.0)}}')
 
-tpl_text('tspan', 'rank_p1', '{{f.rank(database.players.0)}}')
-tpl_text('tspan', 'rating_p1', '{{database.players.0.rating}}')
-tpl_text('tspan', 'winrate_p1', '{{f.winrate(database.players.0)}}')
-tpl_text('tspan', 'wins_p1', '{{database.players.0.wins}}')
-tpl_text('tspan', 'losses_p1', '{{database.players.0.losses}}')
+tpl_text('tspan', 'rank_p1', '{{f.rank(database.match.players.0)}}')
+tpl_text('tspan', 'rating_p1', '{{database.match.players.0.rating.rating}}')
+tpl_text('tspan', 'winrate_p1', '{{f.winrate(database.match.players.0)}}')
+tpl_text('tspan', 'wins_p1', '{{f.wins(database.match.players.0)}}')
+tpl_text('tspan', 'losses_p1', '{{f.losses(database.match.players.0)}}')
 
 # ratings p2
-tpl_set('g', 'player_2_rating', 'style', '{{f.showRating(database.players.1)}}')
-tpl_text('tspan', 'player_2_unranked', '{{f.unranked(database.players.1)}}')
+tpl_set('g', 'player_2_rating', 'style', '{{f.showRating(database.match.players.1)}}')
+tpl_text('tspan', 'player_2_unranked', '{{f.unranked(database.match.players.1)}}')
 
-tpl_text('tspan', 'rank_p2', '{{f.rank(database.players.1)}}')
-tpl_text('tspan', 'rating_p2', '{{database.players.1.rating}}')
-tpl_text('tspan', 'winrate_p2', '{{f.winrate(database.players.1)}}')
-tpl_text('tspan', 'wins_p2', '{{database.players.1.wins}}')
-tpl_text('tspan', 'losses_p2', '{{database.players.1.losses}}')
+tpl_text('tspan', 'rank_p2', '{{f.rank(database.match.players.1)}}')
+tpl_text('tspan', 'rating_p2', '{{database.match.players.1.rating.rating}}')
+tpl_text('tspan', 'winrate_p2', '{{f.winrate(database.match.players.1)}}')
+tpl_text('tspan', 'wins_p2', '{{f.wins(database.match.players.1)}}')
+tpl_text('tspan', 'losses_p2', '{{f.losses(database.match.players.1)}}')
 
 # gameTypes
 tpl_text('tspan', 'gameType', '{{f.gameType(database.match)}}')
