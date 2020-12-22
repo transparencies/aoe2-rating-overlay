@@ -1,6 +1,6 @@
 # Copyright 2020-2020 the aoe-assoc authors. See COPYING.md for legal info.
 
-from aiohttp import web, hdrs, WSCloseCode
+from aiohttp import web, WSCloseCode
 import asyncio
 import aiohttp
 import aiohttp_cors
@@ -88,51 +88,46 @@ async def matchinfo(request):
         else:
             leaderboard_id = 3
 
-    data['players'] = await asyncio.gather(*[fetch('https://aoe2.net/api/leaderboard',
-                                                   params={'game': 'aoe2de',
-                                                           'profile_id': p['profile_id'],
-                                                           'leaderboard_id': leaderboard_id},
-                                                   session=request.app['CLIENT_SESSION'])
-                                             if p['profile_id'] is not None else asyncio.sleep(0)
-                                             for p in data['match']['players']])
+    ladder_data = await asyncio.gather(*[fetch('https://aoe2.net/api/leaderboard',
+                                               params={'game': 'aoe2de',
+                                                         'profile_id': p['profile_id'],
+                                                         'leaderboard_id': leaderboard_id},
+                                               session=request.app['CLIENT_SESSION'])
+                                         if p['profile_id'] is not None else asyncio.sleep(0)
+                                         for p in data['match']['players']])
 
-    data['players'] = [x['leaderboard'][0] if x is not None and len(x['leaderboard']) > 0 else None for x in data['players']]
+    # filter to first returned result, return None if nothing was found
+    ladder_data = [x['leaderboard'][0] if x is not None and len(x['leaderboard']) > 0 else None for x in ladder_data]
 
-    history = await asyncio.gather(*[fetch('https://aoe2.net/api/player/ratinghistory',
+    historic_data = await asyncio.gather(*[fetch('https://aoe2.net/api/player/ratinghistory',
                                            params={'game': 'aoe2de',
                                                    'profile_id': p['profile_id'],
                                                    'leaderboard_id': leaderboard_id,
                                                    'count': 1},
                                            session=request.app['CLIENT_SESSION'])
-                                     if p['profile_id'] is not None is not None and
-                                        data['players'][p_idx] is None else asyncio.sleep(0)
-                                     for p_idx, p in enumerate(data['match']['players'])])
+                                           if p['profile_id'] is not None and
+                                           ladder_data[p_idx] is None else asyncio.sleep(0)
+                                           for p_idx, p in enumerate(data['match']['players'])])
 
-    # map fieldnames
-    for p_idx, p in enumerate(history):
-        if p is not None and len(p) > 0:
-            data['players'][p_idx] = {
-                "historic": True,
-                "rating": p[0]['rating'],
-                "wins": p[0]['num_wins'],
-                "losses": p[0]['num_losses'],
-                "streak": p[0]['streak'],
-                "drops": p[0]['drops'],
-                "timestamp": p[0]['timestamp']
-            }
+    # filter to first returned result, return None if nothing was found
+    historic_data = [history[0] if history is not None and len(history) > 0 else None for history in historic_data]
 
-    for player in data['match']['players']:
+    for player_idx, player in enumerate(data['match']['players']):
         if player is not None:
-            # get alias name
+            # store reference object for front end replacements
             if player['profile_id'] in request.app['REFERENCE_PLAYERS']:
-                # overwrite player name and country from reference player database
-                player['name'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]['name']
-                if 'country' in request.app['REFERENCE_PLAYERS'][player['profile_id']] and \
-                        request.app['REFERENCE_PLAYERS'][player['profile_id']]['country'] is not None:
-                    player['country'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]['country']
-
-                # store reference object for front end replacements
                 player['reference'] = request.app['REFERENCE_PLAYERS'][player['profile_id']]
+
+            if ladder_data[player_idx] is not None:
+                # store rating info
+                player['rating'] = ladder_data[player_idx]
+                player['rating']['historic'] = False
+            elif historic_data[player_idx] is not None:
+                # store history info
+                player['rating'] = historic_data[player_idx]
+                player['rating']['historic'] = True
+            else:
+                player['rating'] = None
 
     return web.json_response(data=data)
 
