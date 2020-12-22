@@ -118,8 +118,7 @@ async def matchinfo(request):
                 "losses": p[0]['num_losses'],
                 "streak": p[0]['streak'],
                 "drops": p[0]['drops'],
-                "timestamp": p[0]['timestamp'],
-                "country": p[0]['country'],
+                "timestamp": p[0]['timestamp']
             }
 
     for player in data['match']['players']:
