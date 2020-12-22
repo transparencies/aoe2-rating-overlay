@@ -63,9 +63,9 @@ window.onload = function() {
 		
 		var params = (database.profileId && database.profileId > 0) ? {profile_id: database.profileId} : {steam_id: database.steamId};
 		var fetchOpts = {headers: {Origin: 'https://share.polskafan.de'}};
-		
-		suchFetch('http://localhost:9090/matchinfo',
-			fetchOpts=fetchOpts,
+
+        suchFetch('https://twitch.polskafan.de/aoe2obs/matchinfo',
+            fetchOpts=fetchOpts,
 			params=params)
 			.then((res) => {
 				res.json().then((matchinfo) => {
