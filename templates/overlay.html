@@ -127,14 +127,14 @@ window.onload = function() {
 			database: { },
 			f: {
 			    showRating: function(p) {
-			        if (p) {
+			        if (p.rating) {
                         return "display: inline;";
                     } else {
                         return "display: none;";
                     }
                 },
                 unranked: function(p) {
-                    if (!p) {
+                    if (!p.rating) {
                         console.log("unranked");
                         return "unranked";
                     }
