@@ -28,7 +28,7 @@ value from the last step as follows:
 
 ## 3. Create a new browser source in OBS
 
-Use this Link and setup a new broweser source in OBS:
+Use this Link and setup a new browser source in OBS:
 
 ![OBS Browser source (Properties)](setup-overlay.png)
 
@@ -45,6 +45,19 @@ and what for feedback your viewers give you.
 
 
 ## Known issues
+
+### OBS caching
+OBS seems to cache older data in some instances (the overlay will continously
+show `unranked` in that instance). To fix that on your PC you need
+to clear the browser cache of the OBS Browser Plugin in the properties window
+of the browser source:
+
+![Caching OBS Browser source (Properties)](fix-caching-problem.png)
+
+Or in the quickactions like so:
+
+![Caching OBS Browser source (Quick Actions)](quickactions-fix-cache.png)
+
 ### MMR
 People tend to criticise the use of `MMR` instead of `ELO`. We use `MMR` on
 purpose as we are trying to bring the interface to different games as well as
